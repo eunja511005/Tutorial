@@ -6,7 +6,7 @@
 <mapper namespace="com.eun.tutorial.mapper.TestMapper">
 
   <select id="getBookLists" resultType="com.eun.tutorial.dto.Book">
-  	SELECT * FROM book;
+  	SELECT ISBN, NAME, AUTHOR FROM book
   </select>
 
 </mapper>
