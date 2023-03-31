@@ -20,3 +20,5 @@ COMMENT ON COLUMN emp.hiredate IS '입사일';
 COMMENT ON COLUMN emp.sal IS '급여';
 COMMENT ON COLUMN emp.comm IS '보너스';
 COMMENT ON COLUMN emp.deptno IS '부서코드';
+
+create table book (seq number(4), isbn VARCHAR2(255), name VARCHAR2(255), author VARCHAR2(255), primary key (seq));
