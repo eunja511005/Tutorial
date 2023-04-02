@@ -1,14 +1,20 @@
 package com.eun.tutorial.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+	
+	
     @Override
     protected void configure(HttpSecurity http) throws Exception { // http 관련 인증 설정
         /**
@@ -48,6 +60,60 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                 .maxSessionsPreventsLogin(true)
                 .expiredUrl("/sessionExpire.html")
                 .sessionRegistry(sessionRegistry());
+        
+        http
+        .authorizeRequests() // 접근에 대한 인증 설정
+            .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**", "/error/**", "/favicon.ico", "/layout/test").permitAll() // 누구나 접근 허용
+            .anyRequest().authenticated();
+        
+        /**
+         * 5.로그인 설정
+         *   1) 로그인 페이지 설정
+         *   2) 로그인 페이지에서 로그인을 위해 호출 하는 url 설정
+         *   3) 나머지는 인증 후 접속 가능토록 설정
+         *   4) 로그인 성공시 핸들러 설정
+         *   5) 로그인 실패시 핸들서 설정
+         *   6) 모두 로그 아웃에 접근 가능
+         */
+        http
+                .formLogin() // 로그인에 관한 설정
+//                    .loginPage("/loginForm") // 로그인 페이지 링크
+//                    .loginProcessingUrl("/signin")
+//                	.usernameParameter("userId")
+                    .successHandler((request, response, auth)->{
+                        for (GrantedAuthority authority : auth.getAuthorities()){
+                            log.info("Authority Information {} ", authority.getAuthority());
+                        }
+                        log.info("getName {} ",auth.getName());
+                        Map<String, String> res = new HashMap<>();
+                        response.sendRedirect("/");
+                        
+//                      Map<String, String> res = new HashMap<>();
+//                        res.put("result", "login success");
+//                        JSONObject json =  new JSONObject(res);
+//                        response.setContentType("application/json; charset=utf-8");
+//                        response.getWriter().print(json);
+                    })
+                    .failureHandler((request, response, exception)->{
+                        String errMsg = "";
+                        if(exception.getClass().isAssignableFrom(BadCredentialsException.class)){
+                            errMsg = "Invalid username or password";
+                            //response.setStatus(401);
+                        }else{
+                            errMsg = "UnKnown error - "+exception.getMessage();
+                            //response.setStatus(400);
+                        }
+//                        zthmErrorRepository.save(ZthmError.builder()
+//                                .errorMessage("Login Error : "+exception.getMessage())
+//                                .build());
+//                        Map<String, String> res = new HashMap<>();
+//                        res.put("result", errMsg);
+//                        JSONObject json =  new JSONObject(res);
+//                        response.setContentType("application/json; charset=utf-8");
+//                        response.getWriter().print(json);
+                        response.sendRedirect("/login");
+                    })
+                    .permitAll();        
     }
 
     @Bean
