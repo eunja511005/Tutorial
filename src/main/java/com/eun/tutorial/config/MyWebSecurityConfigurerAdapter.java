@@ -63,7 +63,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
         
         http
         .authorizeRequests() // 접근에 대한 인증 설정
-            .antMatchers("/loginForm", "/joinForm", "/join", "/h2-console/**", "/error/**", "/favicon.ico", "/layout/test").permitAll() // 누구나 접근 허용
+            .antMatchers("/signin", "/assets/**", "/sign-in.css", "/joinForm", "/join", "/h2-console/**", "/error/**", "/favicon.ico", "/layout/test").permitAll() // 누구나 접근 허용
             .anyRequest().authenticated();
         
         /**
@@ -77,8 +77,8 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          */
         http
                 .formLogin() // 로그인에 관한 설정
-//                    .loginPage("/loginForm") // 로그인 페이지 링크
-//                    .loginProcessingUrl("/signin")
+                    .loginPage("/signin") // 로그인 페이지 URL
+//                    .loginProcessingUrl("/login")
 //                	.usernameParameter("userId")
                     .successHandler((request, response, auth)->{
                         for (GrantedAuthority authority : auth.getAuthorities()){

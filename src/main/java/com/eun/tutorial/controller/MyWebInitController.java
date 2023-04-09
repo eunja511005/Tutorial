@@ -26,12 +26,12 @@ public class MyWebInitController {
 	private static final Logger logger = LoggerFactory.getLogger(MyWebInitController.class);
 	private final BookService bookService;
 	
-	@GetMapping("/")
+	@GetMapping("/signin")
     public ModelAndView viewInit() {
 		logger.debug("request url : /");
 		
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/index.html");
+        modelAndView.setViewName("signin");
 
         return modelAndView;
     }
