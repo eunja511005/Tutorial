@@ -77,7 +77,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          */
         http
                 .formLogin() // 로그인에 관한 설정
-                    .loginPage("/signin") // 로그인 페이지 URL
+                    .loginPage("/signin") // 로그인 페이지 URL 
 //                    .loginProcessingUrl("/login")
 //                	.usernameParameter("userId")
                     .successHandler((request, response, auth)->{
