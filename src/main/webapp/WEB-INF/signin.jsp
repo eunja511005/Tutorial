@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-  <head><script src="../assets/js/color-modes.js"></script>
+  <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +9,8 @@
     <meta name="generator" content="Hugo 0.111.3">
     <title>Signin Template · Bootstrap v5.3</title>
 
+
+	<jsp:include page="jsp/common/init.jsp"/>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
     
@@ -146,31 +148,79 @@
         </li>
       </ul>
     </div>
+    
+    
+    
+    
+    <script>
+    	var csrfheader = $("meta[name='_csrf_header']").attr("content");
+    	var csrftoken = $("meta[name='_csrf']").attr("content");
+    
+        $(function(){
+            $('#myForm').submit(function(event) {
+            	debugger;
+                var myFormData = {
+                    username : $('#username').val(),
+                    password : $("#password").val()
+                };
+                $.ajax({
+                    type : 'POST',
+                    url : '/signin',
+                    contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+                    data : myFormData,
+                    dataType : 'json',
+                    beforeSend : function(xhr){   
+        				xhr.setRequestHeader(csrfheader, csrftoken);
+                    }
+                }).done(function (data) {
+                    <!--alert("login success");-->
+                    debugger;
+                    alert(data.result)
+                    window.location.href = '/index.html';
+                }).fail(function (error) {
+                	debugger;
+                    var errText;
+                    if(JSON.stringify(error.status)==401){
+                        errText="Invalid username or password";
+                    }else{
+                        errText="UnKnown error";
+                    }
+                    alert("login fail : "+errText);
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
 
     
-<main class="form-signin w-100 m-auto">
-  <form>
-    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+	<main class="form-signin w-100 m-auto">
+	  <form id="myForm">
+	    
+	    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+	
+	    <div class="form-floating">
+	      <input type="text" class="form-control" id="username" placeholder="">
+	      <label for="floatingInput">User ID</label>
+	    </div>
+	    <div class="form-floating">
+	      <input type="password" class="form-control" id="password" placeholder="Password">
+	      <label for="floatingPassword">Password</label>
+	    </div>
+	
+	    <div class="checkbox mb-3">
+	      <label>
+	        <input type="checkbox" value="remember-me"> Remember me
+	      </label>
+	    </div>
+	    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+	  </form>
+	</main>
 
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
+    <div class="container px-5">
+        <div class="row justify-content-center">
+            <a href="/joinForm">Sign up</a>
+        </div>
     </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-  </form>
-</main>
 
 
     

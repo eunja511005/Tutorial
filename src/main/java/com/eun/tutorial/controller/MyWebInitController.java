@@ -26,7 +26,7 @@ public class MyWebInitController {
 	private static final Logger logger = LoggerFactory.getLogger(MyWebInitController.class);
 	private final BookService bookService;
 	
-	@GetMapping("/signin")
+	@GetMapping("/signinInit")
     public ModelAndView viewInit() {
 		logger.debug("request url : /");
 		

@@ -3,6 +3,7 @@ package com.eun.tutorial.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,8 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,9 +62,15 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                 .expiredUrl("/sessionExpire.html")
                 .sessionRegistry(sessionRegistry());
         
+        /**
+         * 2.h2-console에서 iframe을 사용하는데 이때 X-Frame-Options 에러가 발생하지 않도록 설정(sameorigin일 경우만 허용)
+         */
+        http.headers().frameOptions().sameOrigin();
+        
+        
         http
         .authorizeRequests() // 접근에 대한 인증 설정
-            .antMatchers("/signin", "/assets/**", "/sign-in.css", "/joinForm", "/join", "/h2-console/**", "/error/**", "/favicon.ico", "/layout/test").permitAll() // 누구나 접근 허용
+            .antMatchers("/signinInit", "/assets/**", "/sign-in.css", "/joinForm", "/join", "/h2-console/**", "/error/**", "/favicon.ico", "/layout/test").permitAll() // 누구나 접근 허용
             .anyRequest().authenticated();
         
         /**
@@ -77,22 +84,22 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          */
         http
                 .formLogin() // 로그인에 관한 설정
-                    .loginPage("/signin") // 로그인 페이지 URL 
-//                    .loginProcessingUrl("/login")
+                    .loginPage("/signinInit") // 로그인 페이지 URL 
+                    .loginProcessingUrl("/signin")
 //                	.usernameParameter("userId")
                     .successHandler((request, response, auth)->{
                         for (GrantedAuthority authority : auth.getAuthorities()){
                             log.info("Authority Information {} ", authority.getAuthority());
                         }
                         log.info("getName {} ",auth.getName());
-                        Map<String, String> res = new HashMap<>();
-                        response.sendRedirect("/");
+//                        Map<String, String> res = new HashMap<>();
+//                        response.sendRedirect("/index.html");
                         
-//                      Map<String, String> res = new HashMap<>();
-//                        res.put("result", "login success");
-//                        JSONObject json =  new JSONObject(res);
-//                        response.setContentType("application/json; charset=utf-8");
-//                        response.getWriter().print(json);
+                        Map<String, String> res = new HashMap<>();
+                        res.put("result", "login success");
+                        JSONObject json =  new JSONObject(res);
+                        response.setContentType("application/json; charset=utf-8");
+                        response.getWriter().print(json);
                     })
                     .failureHandler((request, response, exception)->{
                         String errMsg = "";
@@ -111,7 +118,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 //                        JSONObject json =  new JSONObject(res);
 //                        response.setContentType("application/json; charset=utf-8");
 //                        response.getWriter().print(json);
-                        response.sendRedirect("/login");
+                        response.sendRedirect("/");
                     })
                     .permitAll();        
     }
