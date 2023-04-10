@@ -27,7 +27,7 @@ create table book (seq number(4), isbn VARCHAR2(255), name VARCHAR2(255), author
 drop table zthm_user;
 CREATE TABLE zthm_user
 (
-    username      VARCHAR2(30) NOT NULL,
+    username      VARCHAR2(30),
     password      VARCHAR2(100),
     email         VARCHAR2(30),
     role          VARCHAR2(30),
@@ -36,7 +36,8 @@ CREATE TABLE zthm_user
     create_id     VARCHAR2(30),
     create_time   VARCHAR2(14),
     update_id     VARCHAR2(30),
-    update_time   VARCHAR2(14)
+    update_time   VARCHAR2(14),
+    CONSTRAINT PK_ZTHM_USER_USERNAME PRIMARY KEY (username)
 );
 COMMENT ON TABLE zthm_user IS '유저정보';
 COMMENT ON COLUMN zthm_user.username IS '유저이름';
@@ -49,3 +50,23 @@ COMMENT ON COLUMN zthm_user.create_id IS '생성자';
 COMMENT ON COLUMN zthm_user.create_time IS '생성시간';
 COMMENT ON COLUMN zthm_user.update_id IS '수정장';
 COMMENT ON COLUMN zthm_user.update_time IS '수정시간';
+
+
+DROP TABLE zthh_error;
+CREATE TABLE zthh_error
+(
+    id             VARCHAR2(30),
+    error_message   VARCHAR2(4000),
+    create_id      VARCHAR2(30),
+    create_time    VARCHAR2(14),
+    update_id      VARCHAR2(30),
+    update_time    VARCHAR2(14),
+    CONSTRAINT zthh_error_pk PRIMARY KEY (id)
+);
+COMMENT ON TABLE zthh_error IS '에러 테이블';
+COMMENT ON COLUMN zthh_error.id IS '에러 ID';
+COMMENT ON COLUMN zthh_error.error_message IS '에러 메세지';
+COMMENT ON COLUMN zthh_error.create_id IS '생성자';
+COMMENT ON COLUMN zthh_error.create_time IS '생성시간';
+COMMENT ON COLUMN zthh_error.update_id IS '수정장';
+COMMENT ON COLUMN zthh_error.update_time IS '수정시간';

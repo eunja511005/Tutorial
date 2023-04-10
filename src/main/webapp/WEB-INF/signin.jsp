@@ -214,13 +214,15 @@
 	    </div>
 	    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 	  </form>
+	  
+	    <div class="container px-5">
+	        <div class="row justify-content-center">
+	            <a href="/joinInit">Sign up</a>
+	        </div>
+	    </div>	  
 	</main>
 
-    <div class="container px-5">
-        <div class="row justify-content-center">
-            <a href="/joinForm">Sign up</a>
-        </div>
-    </div>
+
 
 
     
