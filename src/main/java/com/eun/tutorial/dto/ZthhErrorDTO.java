@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ZthhErrorDTO implements Serializable{
 	private static final long serialVersionUID = -732467492044961075L;
 	
-	private Long id;
+	private long id;
     private String errorMessage;
     private String createId;
     private String createTime;

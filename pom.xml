@@ -102,7 +102,7 @@
 			<version>21.9.0.0</version>
 		</dependency>	
         
-        <!-- 
+        <!--
         <dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
 		    <artifactId>ojdbc8</artifactId>
@@ -134,6 +134,13 @@
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
 		    <version>20230227</version>
+		</dependency>
+		
+		<!-- for Mime type check by tika-core -->
+		<dependency>
+		    <groupId>org.apache.tika</groupId>
+		    <artifactId>tika-core</artifactId>
+		    <version>2.7.0</version>
 		</dependency>
 
 			

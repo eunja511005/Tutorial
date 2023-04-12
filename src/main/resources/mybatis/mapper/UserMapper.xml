@@ -20,11 +20,13 @@
   
   <insert id="addUser" parameterType="com.eun.tutorial.dto.UserInfoDTO"> 
     INSERT 
-    	INTO zthm_user (username, password, email, enable,
+    	INTO zthm_user (username, password, email, role, picture, enable,
     	create_id, create_time, update_id, update_time)
    		VALUES (#{username}, 
    		#{password}, 
    		#{email, jdbcType=VARCHAR}, 
+   		#{role, jdbcType=VARCHAR}, 
+   		#{picture, jdbcType=VARCHAR},
    		#{isEnable},
    		#{createId, jdbcType=VARCHAR}, 
    		to_char(sysdate,'yyyymmddhh24mmss'), 

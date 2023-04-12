@@ -51,6 +51,10 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return userInfoDTO.getUsername();
     }
+    
+    public String getPicture() {
+    	return userInfoDTO.getPicture();
+    }
 
     @Override
     public boolean isAccountNonExpired() {

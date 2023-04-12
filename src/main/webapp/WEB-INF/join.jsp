@@ -10,7 +10,7 @@
     <title>Signin Template · Bootstrap v5.3</title>
 
 
-	<jsp:include page="jsp/common/init.jsp"/>
+	<jsp:include page="jsp/common/common.jsp"/>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 	<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
    </head>
@@ -29,7 +29,7 @@
                     password : $("#password").val(),
                     email    : $("#email").val(),
                     phone    : $("#phone").val(),
-                    role     : $("#role").val()
+                    role     : $('input[name=role]:checked').val()
                 };
                 $.ajax({
                     type : 'POST',

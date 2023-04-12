@@ -3,7 +3,10 @@ package com.eun.tutorial.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import org.json.JSONObject;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +19,12 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+
+import com.eun.tutorial.dto.UserInfoDTO;
+import com.eun.tutorial.dto.ZthhErrorDTO;
+import com.eun.tutorial.service.ZthhErrorService;
+import com.eun.tutorial.service.user.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +34,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+	
+	private final ZthhErrorService zthhErrorService;
+	
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
     }
 	
 	
@@ -40,7 +57,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          * javascript에서 CSRF 토큰을 사용하가 위해 httpOnlyFalse()로 지정
          */
         http.csrf()
-        	.ignoringAntMatchers("/logout/**")
+        	.ignoringAntMatchers("/signout")
         	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     	
         /**
@@ -94,8 +111,6 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                             log.info("Authority Information {} ", authority.getAuthority());
                         }
                         log.info("getName {} ",auth.getName());
-//                        Map<String, String> res = new HashMap<>();
-//                        response.sendRedirect("/index.html");
                         
                         Map<String, String> res = new HashMap<>();
                         res.put("result", "login success");
@@ -112,6 +127,8 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                             errMsg = "UnKnown error - "+exception.getMessage();
                             //response.setStatus(400);
                         }
+                        
+                        
 //                        zthmErrorRepository.save(ZthmError.builder()
 //                                .errorMessage("Login Error : "+exception.getMessage())
 //                                .build());
@@ -120,9 +137,34 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 //                        JSONObject json =  new JSONObject(res);
 //                        response.setContentType("application/json; charset=utf-8");
 //                        response.getWriter().print(json);
+                        
+                        zthhErrorService.save(ZthhErrorDTO.builder()
+                                .errorMessage("MyWebSecurityConfigurerAdapter Error : " + exception.getMessage())
+                                .build()
+                        );
+                        
                         response.sendRedirect("/");
+                        
                     })
+                    .permitAll();    
+        
+        
+        /**
+         * 6.로그아웃 설정
+         *   1) 로그아웃을 위해 호출 하는 주소
+         *   2) 로그아웃 성공시 리다이렉트 주소
+         *   3) 로그아웃 성공시 세션 무효화
+         *   4) 로그아웃 성공시 쿠키 삭제
+         *   5) 모두 로그 아웃에 접근 가능
+         */
+        http
+		        	.logout()
+		            .logoutUrl("/signout")
+                    .logoutSuccessUrl("/signinInit")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "SESSION")
                     .permitAll();        
+        
     }
 
     @Bean

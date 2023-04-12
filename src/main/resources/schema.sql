@@ -48,7 +48,7 @@ COMMENT ON COLUMN zthm_user.picture IS '사진';
 COMMENT ON COLUMN zthm_user.enable IS '사용여부';
 COMMENT ON COLUMN zthm_user.create_id IS '생성자';
 COMMENT ON COLUMN zthm_user.create_time IS '생성시간';
-COMMENT ON COLUMN zthm_user.update_id IS '수정장';
+COMMENT ON COLUMN zthm_user.update_id IS '수정자';
 COMMENT ON COLUMN zthm_user.update_time IS '수정시간';
 
 
@@ -68,5 +68,32 @@ COMMENT ON COLUMN zthh_error.id IS '에러 ID';
 COMMENT ON COLUMN zthh_error.error_message IS '에러 메세지';
 COMMENT ON COLUMN zthh_error.create_id IS '생성자';
 COMMENT ON COLUMN zthh_error.create_time IS '생성시간';
-COMMENT ON COLUMN zthh_error.update_id IS '수정장';
+COMMENT ON COLUMN zthh_error.update_id IS '수정자';
 COMMENT ON COLUMN zthh_error.update_time IS '수정시간';
+
+DROP TABLE zthh_file_attach;
+CREATE TABLE zthh_file_attach (
+    attach_id VARCHAR2(30),
+    sequence NUMBER,
+    original_file_name VARCHAR2(255),
+    file_name VARCHAR2(255),
+    file_type VARCHAR2(255),
+    file_size NUMBER,
+    file_path VARCHAR2(1000),
+    create_id      VARCHAR2(30),
+    create_time    VARCHAR2(14),
+    update_id      VARCHAR2(30),
+    update_time    VARCHAR2(14),
+    PRIMARY KEY (attach_id, sequence)
+);
+COMMENT ON TABLE zthh_file_attach IS '파일 첨부 테이블';
+COMMENT ON COLUMN zthh_file_attach.attach_id IS '첨부 ID';
+COMMENT ON COLUMN zthh_file_attach.sequence IS '1개의 첨부 ID에 파일이 여러개 일때 순서 기본은 1';
+COMMENT ON COLUMN zthh_file_attach.original_file_name IS '첨부 파일 원복 이름';
+COMMENT ON COLUMN zthh_file_attach.file_name IS '첨부 파일 이름';
+COMMENT ON COLUMN zthh_file_attach.file_type IS '첨부 파일 타입';
+COMMENT ON COLUMN zthh_file_attach.file_size IS '첨부 파일 사이즈';
+COMMENT ON COLUMN zthh_file_attach.create_id IS '생성자';
+COMMENT ON COLUMN zthh_file_attach.create_time IS '생성시간';
+COMMENT ON COLUMN zthh_file_attach.update_id IS '수정자';
+COMMENT ON COLUMN zthh_file_attach.update_time IS '수정시간';

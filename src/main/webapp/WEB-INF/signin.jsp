@@ -7,17 +7,17 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.111.3">
-    <title>Signin Template · Bootstrap v5.3</title>
+    <title>Signin</title>
 
 
-	<jsp:include page="jsp/common/init.jsp"/>
+	<jsp:include page="jsp/common/common.jsp"/>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
     
 
     
 
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -176,7 +176,7 @@
                     <!--alert("login success");-->
                     debugger;
                     alert(data.result)
-                    window.location.href = '/index.html';
+                    window.location.href = '/initInit';
                 }).fail(function (error) {
                 	debugger;
                     var errText;

@@ -34,3 +34,5 @@ build/
 
 /bin/
 *.properties
+/user-photos/
+/hs_err_pid39776.log

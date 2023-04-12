@@ -6,6 +6,9 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Freelancer - Start Bootstrap Theme</title>
+        
+        <jsp:include page="/WEB-INF/jsp/common/common.jsp"/>
+        
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -31,13 +34,32 @@
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
 		            </ul>
-		        </div>
-		        <div class="user-info ms-auto">
+		        </div>  
+		        
+		    	<div class="user-info ms-auto me-3">
 		            <img src="" alt="User Profile Image" class="rounded-circle" width="50" height="50" id="userProfileImg">
-		            <span class="text-white" id="userSpan">testste</span>
-		        </div>                
+		        </div>    
+				<!-- Example single danger button -->
+				<div class="btn-group">
+				  <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="userSpan">
+				    Action
+				  </button>
+				  <ul class="dropdown-menu">
+				    <li><a class="dropdown-item" href="#">Action</a></li>
+				    <li><a class="dropdown-item" href="#">Another action</a></li>
+				    <li><a class="dropdown-item" href="#">Something else here</a></li>
+				    <li><hr class="dropdown-divider"></li>
+				    <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Sign Out</a></li>
+				  </ul>
+				</div>  		               
 		    </div>
 		</nav>
+		
+		<div class="container">
+			<form action="/signout" method="post" name="logoutForm" style="display: none;">
+		    	<button type="submit"/>
+			</form>	
+		</div>
 
         <!-- Masthead-->
         <header class="masthead bg-primary text-white text-center">
@@ -452,42 +474,6 @@
                 </div>
             </div>
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        <script>
-	        $(document).ready(function() {
-	        	  $('.user-info span').click(function() {
-	        	    // Logout the user
-	        	    $('#userSpan').text('');
-	
-	        	    // Add a logout li element
-	        	    var logoutLi = $('<li>', {
-	        	      class: 'nav-item mx-0 mx-lg-1',
-	        	      html: $('<a>', {
-	        	        class: 'nav-link py-3 px-0 px-lg-3 rounded',
-	        	        href: '#',
-	        	        text: 'Logout'
-	        	      })
-	        	    });
-	        	    $('.navbar-nav').append(logoutLi);
-	
-	        	    // Add a click event listener to the logout link
-	        	    $('.navbar-nav li:last-child a').click(function(e) {
-	        	      e.preventDefault();
-	        	      // Redirect the user to the login page
-	        	      window.location.href = 'login.html';
-	        	    });
-	        	  });
-	        });
-        
-        
-        </script>
+        <script type="text/javascript" src="/js/init/init.js"></script>
     </body>
 </html>
