@@ -57,6 +57,7 @@
 		
 		<div class="container">
 			<form action="/signout" method="post" name="logoutForm" style="display: none;">
+		    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		    	<button type="submit"/>
 			</form>	
 		</div>

@@ -57,7 +57,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          * javascript에서 CSRF 토큰을 사용하가 위해 httpOnlyFalse()로 지정
          */
         http.csrf()
-        	.ignoringAntMatchers("/signout")
+        	.ignoringAntMatchers("/h2/**")
         	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     	
         /**
