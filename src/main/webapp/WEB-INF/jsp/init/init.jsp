@@ -33,13 +33,18 @@
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Success Story</a></li>
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
+		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="javascript:logout()">
+		                                                  	<img src="" alt="User Profile Image" class="rounded-circle" width="35" height="35" id="userProfileImg">
+		                                                  </a>
+		                                                  </li>
 		            </ul>
 		        </div>  
 		        
+		        <!--
 		    	<div class="user-info ms-auto me-3">
 		            <img src="" alt="User Profile Image" class="rounded-circle" width="50" height="50" id="userProfileImg">
 		        </div>    
-				<!-- Example single danger button -->
+		        
 				<div class="btn-group">
 				  <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="userSpan">
 				    Action
@@ -49,9 +54,10 @@
 				    <li><a class="dropdown-item" href="#">Another action</a></li>
 				    <li><a class="dropdown-item" href="#">Something else here</a></li>
 				    <li><hr class="dropdown-divider"></li>
-				    <li><a class="dropdown-item" href="javascript: document.logoutForm.submit()">Sign Out</a></li>
+				    <li><a class="dropdown-item" href="javascript:document.logoutForm.submit()">Sign Out</a></li>
 				  </ul>
-				</div>  		               
+				</div>  
+				-->		               
 		    </div>
 		</nav>
 		

@@ -43,3 +43,20 @@ function callBackInit(response){
 	$('#userProfileImg').attr('src', response.userProfileImg);
 	$('#userSpan').text(response.userName);
 }
+
+function logout(){
+	swal({
+	  title: "Are you sure you want to log out?",
+	  text: "Your information is safely managed.",
+	  icon: "warning",
+	  buttons: true,
+	  dangerMode: true,
+	})
+	.then((willDelete) => {
+	  if (willDelete) {
+	    logoutForm.submit();
+	  } else {
+	    
+	  }
+	});	
+}
