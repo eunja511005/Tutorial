@@ -176,7 +176,7 @@
                     <!--alert("login success");-->
                     debugger;
                     //alert(data.result);
-                	swal({
+/*                 	swal({
                 		  title: data.result,
                 		  text: "Click the button to go to the main page.",
                 		  icon: "success",
@@ -186,7 +186,7 @@
                 		  if (result) {
                 			  window.location.href = "/initInit";
                 		  }
-                		});                    
+                		});  */                   
                 }).fail(function (error) {
                 	debugger;
                     var errText;
@@ -196,12 +196,12 @@
                         errText="UnKnown error";
                     }
                     //alert("login fail : "+errText);
-                	swal({
+/*                 	swal({
               		  title: "Login Fail!",
               		  text: "Error : "+errText,
               		  icon: "warning",
               		  button: "OK",
-              		})
+              		}) */
                 });
                 event.preventDefault();
             });
