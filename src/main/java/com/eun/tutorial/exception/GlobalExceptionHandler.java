@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         log.error("handleException",ex);
         
         
-        String errorMessage = ex.getMessage();
+        String errorMessage = org.apache.tika.utils.ExceptionUtils.getStackTrace(ex);
 
         if(errorMessage.length()>2000) {
         	errorMessage = errorMessage.substring(0, 2000);
