@@ -2,11 +2,15 @@ package com.eun.tutorial.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +47,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@Transactional
 public class MyWebInitController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MyWebInitController.class);
@@ -83,75 +89,85 @@ public class MyWebInitController {
     }
 	
     @PostMapping("/join")
-    public @ResponseBody Map<String, Object> join(MultipartHttpServletRequest multipartFiles, UserInfoDTO userInfoDTO) throws IOException {
+    public @ResponseBody Map<String, Object> join(MultipartHttpServletRequest multipartFiles, 
+    		UserInfoDTO userInfoDTO) throws IOException {
+    	
     	logger.debug("request url : /join");
     	
     	Map<String, Object> res = new HashMap<>();
     	
     	Iterator<String> fileNames = multipartFiles.getFileNames();
-        MultipartFile file = null;
         String fileName = "";
         String mediaTypeString = "";
         int seq = 0;
         while (fileNames.hasNext()) {
-        		seq++;
                 fileName = fileNames.next();
                 log.info("requestFile {} ", fileName);
+                List<MultipartFile> multipartFilesList = multipartFiles.getFiles(fileName);
+                UUID uuid = UUID.randomUUID();
+                String attachId = "user_attach_"+uuid;
+                for (MultipartFile multipartFile : multipartFilesList) {
+                	seq++;
+                    LocalDateTime now = LocalDateTime.now();
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                    String current_date = now.format(dateTimeFormatter);
 
-                file = multipartFiles.getFile(fileName);
+                    String originalFileExtension;
+                    String contentType = multipartFile.getContentType();
+                    if (ObjectUtils.isEmpty(contentType)) {
+                    	res.put("result", "Could not upload the file: " + multipartFile.getOriginalFilename() + "!");
+                    	return res;
+                    } else {
+                    	String mimeType = new Tika().detect(multipartFile.getInputStream()); //where 'file' is a File object or InputStream of the uploaded file
+                    	MediaType mediaType = MediaType.parse(mimeType);
+                    	mediaTypeString = mediaType.getType() + "/" + mediaType.getSubtype();
 
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-                String current_date = now.format(dateTimeFormatter);
+                    	if(!mediaTypeString.equals("image/jpeg") && !mediaTypeString.equals("image/png") && !mediaTypeString.equals("image/gif")) {
+                    		res.put("result", "You can upload file's media type of image/jpeg, image/png");
+                    		return res;
+                    	}
+                        log.info("tikaMimeType {} : "+mimeType);
+                        originalFileExtension = MimeTypeUtils.parseMimeType(mimeType).getSubtype();
+                        originalFileExtension = "."+originalFileExtension;
+                        log.info("originalFileExtension {} : "+originalFileExtension);
+                    }
+                    String new_file_name = current_date + "/" + System.nanoTime() + originalFileExtension;
+                    File newFile = new File(multiPathPath + new_file_name);
+                    if (!newFile.exists()) {
+                        boolean wasSuccessful = newFile.mkdirs();
+                    }
 
-                String originalFileExtension;
-                String contentType = file.getContentType();
-                if (ObjectUtils.isEmpty(contentType)) {
-                	res.put("result", "Could not upload the file: " + file.getOriginalFilename() + "!");
-                	return res;
-                } else {
-                	String mimeType = new Tika().detect(file.getInputStream()); //where 'file' is a File object or InputStream of the uploaded file
-                	MediaType mediaType = MediaType.parse(mimeType);
-                	mediaTypeString = mediaType.getType() + "/" + mediaType.getSubtype();
+                    multipartFile.transferTo(newFile);
 
-                	if(!mediaTypeString.equals("image/jpeg") && !mediaTypeString.equals("image/png") && !mediaTypeString.equals("image/gif")) {
-                		res.put("result", "You can upload file's media type of image/jpeg, image/png");
-                		return res;
-                	}
-                    log.info("tikaMimeType {} : "+mimeType);
-                    originalFileExtension = MimeTypeUtils.parseMimeType(mimeType).getSubtype();
-                    originalFileExtension = "."+originalFileExtension;
-                    log.info("originalFileExtension {} : "+originalFileExtension);
-                }
-                String new_file_name = current_date + "/" + System.nanoTime() + originalFileExtension;
-                File newFile = new File(multiPathPath + new_file_name);
-                if (!newFile.exists()) {
-                    boolean wasSuccessful = newFile.mkdirs();
-                }
-
-                file.transferTo(newFile);
-
-                log.info("Uploaded the file successfully: " + file.getOriginalFilename());
-                log.info("new file name: " + new_file_name);
-                userInfoDTO.setPicture(new_file_name);
-                
-                ZthhFileAttachDTO zthhFileAttachDTO = ZthhFileAttachDTO.builder()
-									                				.prefix("user_attach_")
-									                				.sequence(seq)
-									                				.originalFileName(file.getOriginalFilename())
-									                				.fileName(new_file_name)
-									                				.fileType(mediaTypeString)
-									                				.fileSize(file.getSize())
-									                				.filePath(multiPathPath + new_file_name)
-									                				.createId(userInfoDTO.getUsername())
-									                				.updateId(userInfoDTO.getUsername())
-									                				.build();
-                				
-                zthhFileAttachService.save(zthhFileAttachDTO);
+                    log.info("Uploaded the file successfully: " + multipartFile.getOriginalFilename());
+                    log.info("new file name: " + new_file_name);
+                    userInfoDTO.setPicture(new_file_name);
+                    
+                    ZthhFileAttachDTO zthhFileAttachDTO = ZthhFileAttachDTO.builder()
+    									                				.attachId(attachId)
+    									                				.sequence(seq)
+    									                				.originalFileName(multipartFile.getOriginalFilename())
+    									                				.fileName(new_file_name)
+    									                				.fileType(mediaTypeString)
+    									                				.fileSize(multipartFile.getSize())
+    									                				.filePath(multiPathPath + new_file_name)
+    									                				.createId(userInfoDTO.getUsername())
+    									                				.updateId(userInfoDTO.getUsername())
+    									                				.build();
+                    				
+                    zthhFileAttachService.save(zthhFileAttachDTO);
+				}
     	
         }
     	
-    	
+        // 임시 파일 지우기
+        File dir = new File(multiPathPath);
+        for (File file : dir.listFiles()) {
+            if (file.isFile() && file.getName().toLowerCase().endsWith(".tmp")) {
+                file.delete();
+            }
+        }
+        
 		userService.addUser(userInfoDTO);
 		
 		

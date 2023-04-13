@@ -42,46 +42,57 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Multiple File Upload with Preview using AJAX and Bootstrap</h1>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="file">Select files:</label>
-                <input type="file" name="file[]" id="file" accept="image/jpeg, image/png" multiple />
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+		              
+				        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+				        <form id="uploadForm" enctype="multipart/form-data">
+				            <div class="form-group">
+				                <label for="file">Select files:</label>
+				                <input type="file" name="yfiles" id="file" accept="image/jpeg, image/png" multiple />
+				            </div>
+				            <div class="form-group">
+				                <label for="username">Username:</label>
+				                <input type="text" name="username" id="username" class="form-control" required />
+				            </div>
+				            <div class="form-group">
+				                <label for="password">Password:</label>
+				                <input type="password" name="password" id="password" class="form-control" required />
+				            </div>            
+				            <div class="form-group">
+				                <label for="email">Email:</label>
+				                <input type="email" name="email" id="email" class="form-control" required />
+				            </div>
+							<div class="form-floating mb-3">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="role" id="role1"
+										value="ROLE_ADMIN,ROLE_FAMILY,ROLE_USER"> <label
+										class="form-check-label" for="role1"> Admin </label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="role" id="role2"
+										value="ROLE_FAMILY,ROLE_USER" checked> <label
+										class="form-check-label" for="role2"> FAMILY </label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="role" id="role3"
+										value="ROLE_USER"> <label class="form-check-label"
+										for="role3"> USER </label>
+								</div>
+							</div>
+							<div id="preview"></div>
+				            <button type="submit" class="btn btn-primary" id="submitButton">Upload</button>
+				        </form>
+
+	           </div>
             </div>
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" class="form-control" required />
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" class="form-control" required />
-            </div>            
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" class="form-control" required />
-            </div>
-			<div class="form-floating mb-3">
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="role" id="role1"
-						value="ROLE_ADMIN,ROLE_FAMILY,ROLE_USER"> <label
-						class="form-check-label" for="role1"> Admin </label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="role" id="role2"
-						value="ROLE_FAMILY,ROLE_USER" checked> <label
-						class="form-check-label" for="role2"> FAMILY </label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="role" id="role3"
-						value="ROLE_USER"> <label class="form-check-label"
-						for="role3"> USER </label>
-				</div>
-			</div>
-			<div id="preview"></div>
-            <button type="submit" class="btn btn-primary" id="submitButton">Upload</button>
-        </form>
+        </div>
     </div>
+</section>  
     
     <script>
     
@@ -89,7 +100,7 @@
 		var csrftoken = $("meta[name='_csrf']").attr("content");	
 		
         $(document).ready(function() {
-        	var MAX_FILE_SIZE = 1024 * 1024; // 1 MB
+        	var MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
         	
         	
             $('form#uploadForm').submit(function(event) {

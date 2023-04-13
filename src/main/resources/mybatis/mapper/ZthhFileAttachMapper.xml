@@ -31,7 +31,7 @@
 					FILE_SIZE,
 					FILE_PATH,
 					create_id, create_time, update_id, update_time)
-			VALUES(#{prefix, jdbcType=VARCHAR} || attach_seq.NEXTVAL,
+			VALUES(#{attachId, jdbcType=VARCHAR},
 			#{sequence, jdbcType=VARCHAR},
 			#{originalFileName, jdbcType=VARCHAR},
 			#{fileName, jdbcType=VARCHAR},

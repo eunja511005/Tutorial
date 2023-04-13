@@ -73,7 +73,7 @@ COMMENT ON COLUMN zthh_error.update_time IS '수정시간';
 
 DROP TABLE zthh_file_attach;
 CREATE TABLE zthh_file_attach (
-    attach_id VARCHAR2(30),
+    attach_id VARCHAR2(200),
     sequence NUMBER,
     original_file_name VARCHAR2(255),
     file_name VARCHAR2(255),
