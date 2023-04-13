@@ -46,7 +46,7 @@ function callBackInit(response){
 
 function logout(){
 	swal({
-	  title: "Are you sure you want to log out?",
+	  title: "Are you sure want to log out?",
 	  text: "Your information is safely managed.",
 	  icon: "warning",
 	  buttons: true,

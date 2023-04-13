@@ -175,8 +175,18 @@
                 }).done(function (data) {
                     <!--alert("login success");-->
                     debugger;
-                    alert(data.result)
-                    window.location.href = '/initInit';
+                    //alert(data.result);
+                	swal({
+                		  title: data.result,
+                		  text: "Click the button to go to the main page.",
+                		  icon: "success",
+                		  button: "OK",
+                		})
+                		.then((result) => {
+                		  if (result) {
+                			  window.location.href = "/initInit";
+                		  }
+                		});                    
                 }).fail(function (error) {
                 	debugger;
                     var errText;
@@ -185,7 +195,13 @@
                     }else{
                         errText="UnKnown error";
                     }
-                    alert("login fail : "+errText);
+                    //alert("login fail : "+errText);
+                	swal({
+              		  title: "Login Fail!",
+              		  text: "Error : "+errText,
+              		  icon: "warning",
+              		  button: "OK",
+              		})
                 });
                 event.preventDefault();
             });
