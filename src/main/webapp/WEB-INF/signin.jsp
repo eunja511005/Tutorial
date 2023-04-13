@@ -205,6 +205,11 @@
               		  icon: "warning",
               		  button: "OK",
               		}) 
+              		.then((result) => {
+              		  if (result) {
+              			  window.location.href = "/signout";
+              		  }
+              		}); 
                 });
                 
             });

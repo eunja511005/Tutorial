@@ -162,10 +162,17 @@ public class MyWebInitController {
     
     // 자동 로그아웃 안 될때 사용
     @GetMapping("/signout")
-    public void performLogout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public ModelAndView performLogout(HttpServletRequest request, HttpServletResponse response) {
+        // 1. 세션 삭제
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             logoutHandler.logout(request, response, auth);
         }
+        
+        // 2. 로그인 페이지로 이동
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("signin");
+
+        return modelAndView;
     }
 }
