@@ -100,7 +100,7 @@
 		var csrftoken = $("meta[name='_csrf']").attr("content");	
 		
         $(document).ready(function() {
-        	var MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+        	var MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
         	
         	
             $('form#uploadForm').submit(function(event) {
