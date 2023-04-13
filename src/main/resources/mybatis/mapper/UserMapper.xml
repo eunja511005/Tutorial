@@ -19,19 +19,28 @@
   </select>
   
   <insert id="addUser" parameterType="com.eun.tutorial.dto.UserInfoDTO"> 
-    INSERT 
-    	INTO zthm_user (username, password, email, role, picture, enable,
-    	create_id, create_time, update_id, update_time)
-   		VALUES (#{username}, 
-   		#{password}, 
-   		#{email, jdbcType=VARCHAR}, 
-   		#{role, jdbcType=VARCHAR}, 
-   		#{picture, jdbcType=VARCHAR},
-   		#{isEnable},
-   		#{createId, jdbcType=VARCHAR}, 
-   		to_char(sysdate,'yyyymmddhh24mmss'), 
-   		#{updateId, jdbcType=VARCHAR}, 
-   		to_char(sysdate,'yyyymmddhh24mmss')) 
+		MERGE INTO zthm_user 
+		USING DUAL 
+			ON ( username = #{username, jdbcType=VARCHAR} ) 
+		WHEN MATCHED THEN /* ON 조건에 해당되는 것이 있으면 아래 실행(UPDATE) */
+			UPDATE SET       
+				password = #{username, jdbcType=VARCHAR}
+				,email = #{email, jdbcType=VARCHAR}
+				,role = #{role, jdbcType=VARCHAR}
+				,picture = #{picture, jdbcType=VARCHAR}
+		WHEN NOT MATCHED THEN /* ON 조건에 매칭되지 않으면 아래 실행(Insert)*/
+		    INSERT (username, password, email, role, picture, enable,
+		    		create_id, create_time, update_id, update_time)
+		   		VALUES (#{username, jdbcType=VARCHAR}, 
+				   		#{password, jdbcType=VARCHAR}, 
+				   		#{email, jdbcType=VARCHAR}, 
+				   		#{role, jdbcType=VARCHAR}, 
+				   		#{picture, jdbcType=VARCHAR},
+				   		#{isEnable},
+				   		#{createId, jdbcType=VARCHAR}, 
+				   		to_char(sysdate,'yyyymmddhh24miss'), 
+				   		#{updateId, jdbcType=VARCHAR}, 
+				   		to_char(sysdate,'yyyymmddhh24miss'))
   </insert>  
 
 </mapper>
