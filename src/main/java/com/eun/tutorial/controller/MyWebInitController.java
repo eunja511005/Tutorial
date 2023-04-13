@@ -161,11 +161,11 @@ public class MyWebInitController {
 	}
     
     // 자동 로그아웃 안 될때 사용
-//    @GetMapping("/signout")
-//    public void performLogout(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null) {
-//            logoutHandler.logout(request, response, auth);
-//        }
-//    }
+    @GetMapping("/signout")
+    public void performLogout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            logoutHandler.logout(request, response, auth);
+        }
+    }
 }
