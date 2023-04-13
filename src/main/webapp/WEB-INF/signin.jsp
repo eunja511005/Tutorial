@@ -178,7 +178,8 @@
                 }).done(function (data) {
                     <!--alert("login success");-->
                     debugger;
-                    alert(data.result);
+                    //alert(data.result);
+                    window.location.href = "/initInit";
                  	/* swal({
                 		  title: data.result,
                 		  text: "Click the button to go to the main page.",
@@ -198,8 +199,8 @@
                     }else{
                         errText="UnKnown error";
                     }
-                    alert("login fail : "+errText);
-                 	/* swal({
+                    //alert("login fail : "+errText);
+                    swal({
               		  title: "Login Fail!",
               		  text: "Error : "+errText,
               		  icon: "warning",
@@ -209,7 +210,7 @@
               		  if (result) {
               			  window.location.href = "/signout";
               		  }
-              		});  */
+              		});
                 });
                 
             });
