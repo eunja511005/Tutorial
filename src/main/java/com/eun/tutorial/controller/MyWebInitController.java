@@ -1,5 +1,7 @@
 package com.eun.tutorial.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -8,7 +10,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MediaType;
@@ -17,11 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.ObjectUtils;
@@ -36,13 +35,9 @@ import com.eun.tutorial.dto.UserInfoDTO;
 import com.eun.tutorial.dto.ZthhFileAttachDTO;
 import com.eun.tutorial.service.UserService;
 import com.eun.tutorial.service.ZthhFileAttachService;
-import com.eun.tutorial.service.user.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
-import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,10 +53,19 @@ public class MyWebInitController {
 	
 	@Autowired private BCryptPasswordEncoder passwordEncoder; // 시큐리티에서 빈(Bean) 생성할 예정
 	
+	@Autowired private LogoutHandler logoutHandler;
+	
 	@GetMapping("/signinInit")
-    public ModelAndView signinInit() {
+    public ModelAndView signinInit(HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("request url : /signinInit");
 		
+		// 1. 일단 로그아웃 버튼 눌렀을때 처럼 세션 정리
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            logoutHandler.logout(request, response, auth);
+        }
+		
+        // 2. 로그인 페이지로 이동
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("signin");
 
@@ -144,22 +148,6 @@ public class MyWebInitController {
 									                				.build();
                 				
                 zthhFileAttachService.save(zthhFileAttachDTO);
-                
-//                CustomOAuth2User customOAuth2User = null;
-//                if(SecurityContextHolder.getContext().getAuthentication().getPrincipal()!=null){
-//                    if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof CustomOAuth2User){
-//                        customOAuth2User = (CustomOAuth2User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//                    }
-//                }
-//
-//                ImageEntity imageEntity = ImageEntity.builder()
-//                                                .title((String)param.get("title"))
-//                                                .description((String)param.get("description"))
-//                                                .imagePath("/user-photos/" + new_file_name)
-//                                                .userImagePath(customOAuth2User.getPicture())
-//                                                .build();
-//
-//                imageService.save(imageEntity);
     	
         }
     	
@@ -172,18 +160,12 @@ public class MyWebInitController {
 		return res;
 	}
     
+    // 자동 로그아웃 안 될때 사용
 //    @GetMapping("/signout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//    public void performLogout(HttpServletRequest request, HttpServletResponse response) {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        if (auth != null) {
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//            logoutHandler.logout(request, response, auth);
 //        }
-//        
-//        HttpSession session = request.getSession(false);
-//        if (session != null) {
-//            session.invalidate();
-//        }
-//        
-//        return "redirect:/signout"; // spring security에서 제공하는 로그 아웃 기능 호출
 //    }
 }
