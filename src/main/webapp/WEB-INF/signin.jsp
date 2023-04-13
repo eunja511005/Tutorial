@@ -159,6 +159,9 @@
         $(function(){
             $('#myForm').submit(function(event) {
             	debugger;
+            	
+            	event.preventDefault();
+            	
                 var myFormData = {
                     username : $('#username').val(),
                     password : $("#password").val()
@@ -203,7 +206,7 @@
               		  button: "OK",
               		}) */
                 });
-                event.preventDefault();
+                
             });
         });
     </script>
