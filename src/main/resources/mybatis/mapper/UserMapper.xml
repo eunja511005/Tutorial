@@ -24,7 +24,7 @@
 			ON ( username = #{username, jdbcType=VARCHAR} ) 
 		WHEN MATCHED THEN /* ON 조건에 해당되는 것이 있으면 아래 실행(UPDATE) */
 			UPDATE SET       
-				password = #{username, jdbcType=VARCHAR}
+				password = #{password, jdbcType=VARCHAR}
 				,email = #{email, jdbcType=VARCHAR}
 				,role = #{role, jdbcType=VARCHAR}
 				,picture = #{picture, jdbcType=VARCHAR}
