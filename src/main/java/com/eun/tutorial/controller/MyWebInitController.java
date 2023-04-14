@@ -83,7 +83,7 @@ public class MyWebInitController {
 		logger.debug("request url : /joinInit");
 		
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("join2");
+        modelAndView.setViewName("join4");
 
         return modelAndView;
     }
