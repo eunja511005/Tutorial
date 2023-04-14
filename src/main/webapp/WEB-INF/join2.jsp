@@ -43,49 +43,54 @@
 </head>
 <body>
 <section class="py-5">
-    <div class="container px-5">
+    <div class="container">
         <!-- Contact form-->
-        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
-            <div class="row gx-5 justify-content-center">
-                <div class="col-lg-8 col-xl-6">
+        <div class="bg-light rounded-3 py-5">
+            <div class="row justify-content-center">
+                <div class="col-xs-12 col-lg-6">
 		              
 				        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 				        <form id="uploadForm" enctype="multipart/form-data">
 				            <div class="form-group">
-				                <label for="file">Select files:</label>
-				                <input type="file" name="yfiles" id="file" accept="image/jpeg, image/png" multiple />
+				                <label for="file" class="form-label h4">Image files:</label>
+								<label class="btn btn-primary" for="file">
+								  Choose files
+								  <input type="file" name="yfiles" id="file" accept="image/jpeg, image/png" multiple style="display: none;">
+								</label>
 				            </div>
 				            <div class="form-group">
-				                <label for="username">Username:</label>
+				                <label for="username" class="form-label h4">Username:</label>
 				                <input type="text" name="username" id="username" class="form-control" required />
 				            </div>
 				            <div class="form-group">
-				                <label for="password">Password:</label>
+				                <label for="password" class="form-label h4">Password:</label>
 				                <input type="password" name="password" id="password" class="form-control" required />
 				            </div>            
 				            <div class="form-group">
-				                <label for="email">Email:</label>
+				                <label for="email" class="form-label h4">Email:</label>
 				                <input type="email" name="email" id="email" class="form-control" required />
 				            </div>
-							<div class="form-floating mb-3">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="role" id="role1"
-										value="ROLE_ADMIN,ROLE_FAMILY,ROLE_USER"> <label
-										class="form-check-label" for="role1"> Admin </label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="role" id="role2"
-										value="ROLE_FAMILY,ROLE_USER" checked> <label
-										class="form-check-label" for="role2"> FAMILY </label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="role" id="role3"
-										value="ROLE_USER"> <label class="form-check-label"
-										for="role3"> USER </label>
+				            <div class="form-group">
+				            	<label for="role" class="form-label h4">Role:</label>
+				            	<div class="container">
+				            		<div class="row">
+										<div class="col-sm-2">
+											<input class="form-check-input" type="radio" name="role" id="role1" value="ROLE_ADMIN,ROLE_FAMILY,ROLE_USER">
+											<label class="form-check-label form-label h4" for="role1"> Admin </label>
+										</div>	
+										<div class="col-sm-2">
+											<input class="form-check-input" type="radio" name="role" id="role2" value="ROLE_FAMILY,ROLE_USER" checked>
+											<label class="form-check-label form-label h4" for="role2"> FAMILY </label>
+										</div>
+										<div class="col-sm-2">
+											<input class="form-check-input" type="radio" name="role" id="role3" value="ROLE_USER">
+											<label class="form-check-label form-label h4" for="role3"> USER </label>
+										</div>									
+									</div>
 								</div>
 							</div>
 							<div id="preview"></div>
-				            <button type="submit" class="btn btn-primary" id="submitButton">Upload</button>
+				            <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Upload</button>
 				        </form>
 
 	           </div>
