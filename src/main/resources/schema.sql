@@ -97,3 +97,23 @@ COMMENT ON COLUMN zthh_file_attach.create_id IS '생성자';
 COMMENT ON COLUMN zthh_file_attach.create_time IS '생성시간';
 COMMENT ON COLUMN zthh_file_attach.update_id IS '수정자';
 COMMENT ON COLUMN zthh_file_attach.update_time IS '수정시간';
+
+DROP TABLE zthh_board;
+CREATE TABLE zthh_board (
+    board_id VARCHAR2(200),
+    title VARCHAR2(255),
+    content CLOB,
+    create_id      VARCHAR2(30),
+    create_time    date,
+    update_id      VARCHAR2(30),
+    update_time    date,
+    PRIMARY KEY (board_id)
+);
+COMMENT ON TABLE zthh_board IS '글쓰기 테이블';
+COMMENT ON COLUMN zthh_board.board_id IS '글쓰기 ID';
+COMMENT ON COLUMN zthh_board.title IS '제목';
+COMMENT ON COLUMN zthh_board.content IS '내용';
+COMMENT ON COLUMN zthh_board.create_id IS '생성자';
+COMMENT ON COLUMN zthh_board.create_time IS '생성시간';
+COMMENT ON COLUMN zthh_board.update_id IS '수정자';
+COMMENT ON COLUMN zthh_board.update_time IS '수정시간';

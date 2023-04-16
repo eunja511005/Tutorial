@@ -5,4 +5,7 @@ insert into zthm_user(username, password, email, role, picture, enable, create_i
 INSERT INTO ZTHH_FILE_ATTACH
 (ATTACH_ID, SEQUENCE, ORIGINAL_FILE_NAME, FILE_NAME, FILE_TYPE, FILE_SIZE, FILE_PATH, create_id, create_time, update_id, update_time)
 VALUES('user_attach_1', 1, '7_2i3Ud018svck2mp5ywpv1zq_2gsiif.jpg', '563086458821600.png', 'PNG', 856, 'D:\Users\ywbes\git\Tutorial\user-photos\20230411\563086458821600.png', 'ywbest.park', to_char(sysdate,'yyyymmddhh24mmss'), 'ywbest.park', to_char(sysdate,'yyyymmddhh24mmss'));
-   
+INSERT INTO ZTHH_BOARD
+(BOARD_ID, TITLE, CONTENT, create_id, create_time, update_id, update_time)
+VALUES('board_uuid', 'TEST', 'TEST', 'ywbest.park', sysdate, 'ywbest.park', sysdate);
+      
