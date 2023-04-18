@@ -23,17 +23,17 @@ public class ZthhBoardServiceImpl implements ZthhBoardService {
 	private static final Logger logger = LoggerFactory.getLogger(ZthhBoardServiceImpl.class);
 
     @Override
-    public int save(ZthhBoardDTO zthhFileAttachDTO) {
+    public int save(ZthhBoardDTO zthhBoardDTO) {
     	UUID uuid = UUID.randomUUID();
         String boardId = "board_"+uuid;
-        zthhFileAttachDTO.setBoardId(boardId);
+        zthhBoardDTO.setBoardId(boardId);
         
         // 1. insert EMPTY_CLOB()
-        zthhBoardMapper.save(zthhFileAttachDTO);
+        zthhBoardMapper.save(zthhBoardDTO);
     	
     	
         // 2. update 실제 content
-    	return zthhBoardMapper.save(zthhFileAttachDTO);
+    	return zthhBoardMapper.save(zthhBoardDTO);
     }
 
     @Override
@@ -44,5 +44,11 @@ public class ZthhBoardServiceImpl implements ZthhBoardService {
 	@Override
 	public ZthhBoardDTO getOne(Map<String, Object> map) {
 		return zthhBoardMapper.getOne(map);
+	}
+
+	@Override
+	public int delete(String id) {
+		// TODO Auto-generated method stub
+		return zthhBoardMapper.delete(id);
 	}
 }

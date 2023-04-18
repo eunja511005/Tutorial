@@ -51,5 +51,9 @@
 				   		sysdate,
 				   		EMPTY_CLOB())
   </insert>  
+  
+  <delete id="delete" parameterType="com.eun.tutorial.dto.ZthhBoardDTO"> 
+  		DELETE FROM zthh_board WHERE board_id = #{id, jdbcType=VARCHAR, javaType=string}
+  </delete>    
 
 </mapper>

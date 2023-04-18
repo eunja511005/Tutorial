@@ -1,3 +1,4 @@
+/*
 INSERT INTO emp VALUES(1, 'KING', 'PRESIDENT', NULL, TO_DATE('1981-11-17', 'yyyy-mm-dd'), 5000, NULL, 10);
 insert into book(seq, isbn, name, author) values (auto_seq.NEXTVAL, 'isbn1', 'name1', 'author1');
 insert into book(seq, isbn, name, author) values (auto_seq.NEXTVAL, 'isbn2', 'name2', 'author2');
@@ -8,4 +9,4 @@ VALUES('user_attach_1', 1, '7_2i3Ud018svck2mp5ywpv1zq_2gsiif.jpg', '563086458821
 INSERT INTO ZTHH_BOARD
 (BOARD_ID, TITLE, CONTENT, create_id, create_time, update_id, update_time)
 VALUES('board_uuid', 'TEST', 'TEST', 'ywbest.park', sysdate, 'ywbest.park', sysdate);
-      
+*/   

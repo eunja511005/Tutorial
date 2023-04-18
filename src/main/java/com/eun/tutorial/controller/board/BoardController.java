@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -80,6 +82,21 @@ public class BoardController {
     	
     	res.put("result", "upload success");
         res.put("boardList", zthhBoardService.findAll());
+		return res;
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public @ResponseBody Map<String, Object> delete(Authentication authentication, @PathVariable String id){
+    	logger.debug("request url : /join");
+    	
+    	UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
+    	
+    	zthhBoardService.delete(id);
+    	
+    	Map<String, Object> res = new HashMap<>();
+    	
+    	res.put("result", "delete success");
+        res.put("redirectUrl", "/board/listForm");
 		return res;
 	}
 }

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 	
@@ -34,24 +35,24 @@
 <div class="container-fluid my-3">
     <div class="row align-items-center">
         <div class="col col-9">
-            <h2>Board Lists</h2>
+            <h2 class="ml-3">Board Lists</h2>
         </div>
         <div class="col col-3">
-            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm">NEW</a>
+            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm ml-3">NEW</a>
         </div>
     </div>
 </div>
 <hr>
 
-<div class="container-fluid">
+<div class="container-fluid ml-3">
     <table id="example" class="display" style="width:100%">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Title</th>
             <th>User</th>
             <th>Time</th>
             <th>Contents</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -116,7 +117,6 @@
                        dataSrc: 'boardList'
                    },
                    columns: [
-                       { data: 'boardId'},
                        { data: 'title'},
                        { data: 'updateId'},
                        { data: 'updateTime', 
@@ -130,15 +130,70 @@
                     		   debugger;
                     		   return '<button type="button" class="btn btn-primary">View Content</button>';
                     	   }                       
+                       },
+                       { data: 'boardId',
+                    	   "render": function(data, type, row, meta){
+                               return '<button type="button" class="btn btn-danger">Delete</button>';
+                           }
                        }
                    ],
 	               columnDefs: [
-	            	   { targets: 0, visible: false }
+	            	   //{ targets: 0, visible: false }
 	            	],
-                   order: [ [0, 'asc'] ]
+                   order: [ [2, 'desc'] ]
                 });
                 
             } );
+            
+            // Bind click event to delete button
+            $('#example').on('click', '.btn-danger', function() {
+            	debugger;
+                // Get the row data
+                var data = $('#example').DataTable().row($(this).parents('tr')).data();
+                
+                var id = data.boardId;
+                
+                $.ajax({
+                    url: '/board/delete/'+ id,
+                    type: 'DELETE',
+                    data : data,
+                    //contentType : 'application/json; charset=utf-8',
+                    processData: false,
+                    beforeSend : function(xhr){   
+        				xhr.setRequestHeader(csrfheader, csrftoken);
+                    },
+                    success: function(response) {
+                    	debugger;
+                    	
+                    	if(response.redirectUrl != undefined && response.redirectUrl != ""){
+                    		window.location.href = response.redirectUrl;
+                    	}
+                    },
+                    error: function(response) {
+                    	debugger;
+                        alert(response.responseText);
+                    }
+                });
+                
+                
+                
+                // Call the delete function with the row data
+                //deleteRow(data);
+            });
+            
+            function deleteRow(data) {
+                // Get the datatable
+                var table = $('#example').DataTable();
+
+                // Find the row with the matching data and remove it
+                table.rows().eq(0).each(function(index) {
+                    var row = table.row(index);
+                    var rowData = row.data();
+                    if (rowData === data) {
+                        row.remove().draw();
+                    }
+                });
+            }
             
             $(document).on('click', '.btn-primary', function(){ 
                 var $btn=$(this);

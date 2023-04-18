@@ -1,3 +1,4 @@
+/*
 DROP TABLE emp;
 CREATE TABLE emp
 (
@@ -117,3 +118,4 @@ COMMENT ON COLUMN zthh_board.create_id IS '생성자';
 COMMENT ON COLUMN zthh_board.create_time IS '생성시간';
 COMMENT ON COLUMN zthh_board.update_id IS '수정자';
 COMMENT ON COLUMN zthh_board.update_time IS '수정시간';
+*/
