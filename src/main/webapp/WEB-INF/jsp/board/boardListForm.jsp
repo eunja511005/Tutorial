@@ -45,7 +45,7 @@
         <thead>
 		    <tr>
 		        <th colspan="5">
-		            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm" style="float: right;">NEW</a>
+		            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm">NEW</a>
 		        </th>
 		    </tr>       
 	        <tr>
