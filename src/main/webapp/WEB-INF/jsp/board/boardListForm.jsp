@@ -30,30 +30,31 @@
   	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
+	<!-- fontawesome -->
+	<script src="https://kit.fontawesome.com/64b5a4efc1.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-<div class="container-fluid my-3">
-    <div class="row align-items-center">
-        <div class="col col-9">
-            <h2 class="ml-3">Board Lists</h2>
-        </div>
-        <div class="col col-3">
-            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm ml-3">NEW</a>
-        </div>
-    </div>
+<div class="container-fluid">
+	<h2>Board Lists</h2>
 </div>
 <hr>
 
-<div class="container-fluid ml-3">
+<div class="container-fluid">
     <table id="example" class="display" style="width:100%">
         <thead>
-        <tr>
-            <th>Title</th>
-            <th>User</th>
-            <th>Time</th>
-            <th>Contents</th>
-            <th>Delete</th>
-        </tr>
+		    <tr>
+		        <th colspan="5">
+		            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm" style="float: right;">NEW</a>
+		        </th>
+		    </tr>       
+	        <tr>
+	            <th>Title</th>
+	            <th>User</th>
+	            <th>Time</th>
+	            <th>Contents</th>
+	            <th>Delete</th>
+	        </tr>
         </thead>
         <tbody>
         </tbody>
@@ -104,7 +105,7 @@
             	
             	
                 $('#example').DataTable({
-                   lengthMenu: [10,20,30,40,50],
+                   lengthChange: false,
                    displayLength: 20,
                    scrollX: true,
                    ajax: {
@@ -128,17 +129,20 @@
                        { data: 'content',
                     	   "render": function(data, type, row, meta){
                     		   debugger;
-                    		   return '<button type="button" class="btn btn-primary">View Content</button>';
+                    		   //return '<button type="button" class="btn btn-primary">View Content</button>';
+                    		   return '<i class="fa-solid fa-magnifying-glass-chart"></i>';
                     	   }                       
                        },
                        { data: 'boardId',
                     	   "render": function(data, type, row, meta){
-                               return '<button type="button" class="btn btn-danger">Delete</button>';
+                               //return '<button type="button" class="btn btn-danger">Delete</button>';
+                               return '<i class="fa-solid fa-trash-can"></i>';
                            }
                        }
                    ],
 	               columnDefs: [
 	            	   //{ targets: 0, visible: false }
+	            	      {"className": "text-center", "targets": [3, 4]},
 	            	],
                    order: [ [2, 'desc'] ]
                 });
@@ -146,7 +150,7 @@
             } );
             
             // Bind click event to delete button
-            $('#example').on('click', '.btn-danger', function() {
+            $('#example').on('click', '.fa-trash-can', function() {
             	debugger;
                 // Get the row data
                 var data = $('#example').DataTable().row($(this).parents('tr')).data();
@@ -195,7 +199,7 @@
                 });
             }
             
-            $(document).on('click', '.btn-primary', function(){ 
+            $(document).on('click', '.fa-magnifying-glass-chart', function(){ 
                 var $btn=$(this);
                 var $tr=$btn.closest('tr');
                 var dataTableRow=$("#example").DataTable().row($tr[0]); // get the DT row so we can use the API on it
