@@ -36,8 +36,7 @@
 			ON ( board_id = #{boardId, jdbcType=VARCHAR, javaType=string} ) 
 		WHEN MATCHED THEN /* ON 조건에 해당되는 것이 있으면 아래 실행(UPDATE) */
 			UPDATE SET       
-				title = #{title, jdbcType=VARCHAR}				
-				,update_id = #{updateId, jdbcType=VARCHAR}
+				update_id = #{updateId, jdbcType=VARCHAR}
 				,update_time = sysdate
 				,content = #{content, mode=IN, jdbcType=CLOB, javaType=string}
 		WHEN NOT MATCHED THEN /* ON 조건에 매칭되지 않으면 아래 실행(Insert)*/

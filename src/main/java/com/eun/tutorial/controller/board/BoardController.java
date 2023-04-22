@@ -3,6 +3,7 @@ package com.eun.tutorial.controller.board;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -99,4 +102,21 @@ public class BoardController {
         res.put("redirectUrl", "/board/listForm");
 		return res;
 	}
+	
+    @PutMapping("/update")
+    public @ResponseBody Map<String, Object> updateContent(Authentication authentication, @RequestBody ZthhBoardDTO zthhBoardDTO){
+
+        log.info(zthhBoardDTO.toString());
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
+    	zthhBoardDTO.setCreateId(userDetailsImpl.getUsername());
+    	zthhBoardDTO.setUpdateId(userDetailsImpl.getUsername());
+
+        zthhBoardService.save(zthhBoardDTO);
+        
+    	Map<String, Object> res = new HashMap<>();
+    	
+    	res.put("result", "update success");
+        res.put("redirectUrl", "/board/listForm");
+		return res;
+    }
 }

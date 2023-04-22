@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.tika.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,11 @@ public class ZthhBoardServiceImpl implements ZthhBoardService {
 
     @Override
     public int save(ZthhBoardDTO zthhBoardDTO) {
-    	UUID uuid = UUID.randomUUID();
-        String boardId = "board_"+uuid;
-        zthhBoardDTO.setBoardId(boardId);
+    	if(StringUtils.isBlank(zthhBoardDTO.getBoardId())) {
+    		UUID uuid = UUID.randomUUID();
+    		String boardId = "board_"+uuid;
+    		zthhBoardDTO.setBoardId(boardId);
+    	}
         
         // 1. insert EMPTY_CLOB()
         zthhBoardMapper.save(zthhBoardDTO);

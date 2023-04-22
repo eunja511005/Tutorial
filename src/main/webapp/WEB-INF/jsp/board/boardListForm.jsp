@@ -30,9 +30,6 @@
   	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
   	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
-	<!-- fontawesome -->
-	<script src="https://kit.fontawesome.com/64b5a4efc1.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
 <div class="container-fluid">
@@ -76,6 +73,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="updateContents" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -88,160 +86,188 @@
 <!-- Required bootstrap -->
 <!--<script type="text/javascript" language="javascript" src="/assets/dist/js/bootstrap.bundle.min.js"></script> -->
 
-<script>
-			var nowPage = 1;
-			var pageSize = 1;
-			
-			var csrfheader = $("meta[name='_csrf_header']").attr("content");
-	    	var csrftoken = $("meta[name='_csrf']").attr("content");
-	    	
-            $(document).ready(function() {
-            	
-            	debugger;
-                var aParams = {
-                		nowPage : nowPage,
-                		pageSize : pageSize
-                    };
-            	
-            	
-                $('#example').DataTable({
-                   lengthChange: false,
-                   displayLength: 20,
-                   scrollX: true,
-                   ajax: {
-                       url: '/board/list',
-                	   type: 'POST',
-                	   data: aParams,
-	               	   beforeSend: function(xhr) {
-	            	   		xhr.setRequestHeader(csrfheader, csrftoken);
-	            	   },
-                       dataSrc: 'boardList'
-                   },
-                   columns: [
-                       { data: 'title'},
-                       { data: 'updateId'},
-                       { data: 'updateTime', 
-                    	   "render": function(data, type, row, meta){
-                    		   data = data;
-                    		   return data;
-                    	   }
-                       },
-                       { data: 'content',
-                    	   "render": function(data, type, row, meta){
-                    		   debugger;
-                    		   //return '<button type="button" class="btn btn-primary">View Content</button>';
-                    		   return '<i class="fa-solid fa-magnifying-glass-chart"></i>';
-                    	   }                       
-                       },
-                       { data: 'boardId',
-                    	   "render": function(data, type, row, meta){
-                               //return '<button type="button" class="btn btn-danger">Delete</button>';
-                               return '<i class="fa-solid fa-trash-can"></i>';
-                           }
-                       }
-                   ],
-	               columnDefs: [
-	            	   //{ targets: 0, visible: false }
-	            	      {"className": "text-center", "targets": [3, 4]},
-	            	],
-                   order: [ [2, 'desc'] ]
-                });
-                
-            } );
-            
-            // Bind click event to delete button
-            $('#example').on('click', '.fa-trash-can', function() {
-            	debugger;
-                // Get the row data
-                var data = $('#example').DataTable().row($(this).parents('tr')).data();
-                
-                var id = data.boardId;
-                
-                $.ajax({
-                    url: '/board/delete/'+ id,
-                    type: 'DELETE',
-                    data : data,
-                    //contentType : 'application/json; charset=utf-8',
-                    processData: false,
-                    beforeSend : function(xhr){   
-        				xhr.setRequestHeader(csrfheader, csrftoken);
-                    },
-                    success: function(response) {
-                    	debugger;
-                    	
-                    	if(response.redirectUrl != undefined && response.redirectUrl != ""){
-                    		window.location.href = response.redirectUrl;
-                    	}
-                    },
-                    error: function(response) {
-                    	debugger;
-                        alert(response.responseText);
-                    }
-                });
-                
-                
-                
-                // Call the delete function with the row data
-                //deleteRow(data);
-            });
-            
-            function deleteRow(data) {
-                // Get the datatable
-                var table = $('#example').DataTable();
-
-                // Find the row with the matching data and remove it
-                table.rows().eq(0).each(function(index) {
-                    var row = table.row(index);
-                    var rowData = row.data();
-                    if (rowData === data) {
-                        row.remove().draw();
-                    }
-                });
-            }
-            
-            $(document).on('click', '.fa-magnifying-glass-chart', function(){ 
-                var $btn=$(this);
-                var $tr=$btn.closest('tr');
-                var dataTableRow=$("#example").DataTable().row($tr[0]); // get the DT row so we can use the API on it
-                var rowData=dataTableRow.data();
+	<script>
+				var nowPage = 1;
+				var pageSize = 1;
 				
-                $('#summernote').summernote('code', rowData.content);
-		        $('#contentModal').modal('show');
-        	});
-            
-            $(document).on('click', '.btn-secondary', function(){ 
-            	$('#contentModal').modal('hide');
-        	});
-            
-            /**
-            $("#example").on('click', 'tbody tr button', function () {
-                var row = $("#example").DataTable().row($(this)).data();
-                console.log(row);
-                
-                //$('#contentModal .modal-body').html(row.content);
-                
-		        $('#summernote').summernote({
-		            placeholder: 'write your idea',
-		            tabsize: 2,
-		            height: 300,                 // set editor height
-		            minHeight: null,             // set minimum height of editor
-		            maxHeight: null,             // set maximum height of editor
-		            focus: true                  // set focus to editable area after initializing summernote
-		        });    
-		        
-		        //$('#summernote').summernote('destroy');
-		        //$('#summernote').summernote('reset');
-		        //$('#summernote').summernote('pasteHTML', row.content);
-		        $('#summernote').summernote('code', row.content);
-		        //$('#summernote').summernote('pasteHTML', row.content);
-		        //$('#summernote').summernote('disable');
-                
-                $('#contentModal').modal('show');
-                
-            });
-            */
+				var csrfheader = $("meta[name='_csrf_header']").attr("content");
+		    	var csrftoken = $("meta[name='_csrf']").attr("content");
+		    	
+		    	var currentBoradId;
+		    	
+	            $(document).ready(function() {
+	            	
+	            	debugger;
+	                var aParams = {
+	                		nowPage : nowPage,
+	                		pageSize : pageSize
+	                    };
+	            	
+	            	
+	                $('#example').DataTable({
+	                   lengthChange: false,
+	                   displayLength: 20,
+	                   scrollX: true,
+	                   ajax: {
+	                       url: '/board/list',
+	                	   type: 'POST',
+	                	   data: aParams,
+		               	   beforeSend: function(xhr) {
+		            	   		xhr.setRequestHeader(csrfheader, csrftoken);
+		            	   },
+	                       dataSrc: 'boardList'
+	                   },
+	                   columns: [
+	                       { data: 'title'},
+	                       { data: 'updateId'},
+	                       { data: 'updateTime', 
+	                    	   "render": function(data, type, row, meta){
+	                    		   data = data;
+	                    		   return data;
+	                    	   }
+	                       },
+	                       { data: 'content',
+	                    	   "render": function(data, type, row, meta){
+	                    		   //return '<button type="button" class="btn btn-primary">View Content</button>';
+	                    		   return '<i class="fa-solid fa-magnifying-glass-chart"></i>';
+	                    	   }                       
+	                       },
+	                       { data: 'boardId',
+	                    	   "render": function(data, type, row, meta){
+	                               //return '<button type="button" class="btn btn-danger">Delete</button>';
+	                               return '<i class="fa-solid fa-trash-can"></i>';
+	                           }
+	                       }
+	                   ],
+		               columnDefs: [
+		            	   //{ targets: 0, visible: false }
+		            	      {"className": "text-center", "targets": [3, 4]},
+		            	],
+	                   order: [ [2, 'desc'] ]
+	                });
+	                
+	            } );
+	            
+	            // Bind click event to delete button
+	            $('#example').on('click', '.fa-trash-can', function() {
+	            	
+	            	swal({
+	            		  title: "Are you sure you want to delete it?",
+	            		  text: "Your information is safely managed.",
+	            		  icon: "warning",
+	            		  buttons: true,
+	            		  dangerMode: true,
+	            		})
+	            		.then((willDelete) => {
+	            		  if (willDelete) {
+	            			var data = $('#example').DataTable().row($(this).parents('tr')).data();
+	      	                
+	      	                var id = data.boardId;
+	      	                
+	      	                $.ajax({
+	      	                    url: '/board/delete/'+ id,
+	      	                    type: 'DELETE',
+	      	                    beforeSend : function(xhr){   
+	      	        				xhr.setRequestHeader(csrfheader, csrftoken);
+	      	                    },
+	      	                    success: function(response) {
+	      	                    	if(response.redirectUrl != undefined && response.redirectUrl != ""){
+	      	                    		window.location.href = response.redirectUrl;
+	      	                    	}
+	      	                    },
+	      	                    error : function (jqXHR, textStatus, errorThrown){
+	      	                		console.log(jqXHR);  //응답 메시지
+	      	                		console.log(textStatus); //"error"로 고정인듯함
+	      	                		console.log(errorThrown);
+	      	                	}
+	      	                });
+	            		  } else {
+	            		    
+	            		  }
+	            	});	
 
-</script>
+	            });
+	            
+	            /*
+	            function deleteRow(data) {
+	                // Get the datatable
+	                var table = $('#example').DataTable();
+	
+	                // Find the row with the matching data and remove it
+	                table.rows().eq(0).each(function(index) {
+	                    var row = table.row(index);
+	                    var rowData = row.data();
+	                    if (rowData === data) {
+	                        row.remove().draw();
+	                    }
+	                });
+	            }
+	            */
+	            
+	            $(document).on('click', '.fa-magnifying-glass-chart', function(){ 
+	                var $btn=$(this);
+	                var $tr=$btn.closest('tr');
+	                var dataTableRow=$("#example").DataTable().row($tr[0]); // get the DT row so we can use the API on it
+	                var rowData=dataTableRow.data();
+					
+	                currentBoradId = rowData.boardId;
+	                $('#summernote').summernote('code', rowData.content);
+			        $('#contentModal').modal('show');
+	        	});
+	            
+	            $(document).on('click', '.btn-secondary', function(){ 
+	            	$('#contentModal').modal('hide');
+	        	});
+	            
+	            $(document).on('click', '#updateContents', function(){ 
+	                var data = {
+	                	boardId : currentBoradId,
+	                    content : $('#summernote').summernote('code')
+	                };
+	            	
+	                $.ajax({
+	                    type : 'PUT',
+	                    url : '/board/update',
+	                    beforeSend : function(xhr){   
+	        				xhr.setRequestHeader(csrfheader, csrftoken);
+	                    },
+	                    contentType : 'application/json; charset=utf-8',
+	                    data : JSON.stringify(data),
+	                    processData: false,
+	                    dataType : 'text',
+	                    success: function(response) {
+	                    	debugger;
+	                    	
+	                    	//var response = eval( '(' + response + ')' );
+	                    	var response = JSON.parse(response);
+	                    	
+	                    	swal({
+	                  		  title: response.result,
+	                  		  text: "Your changes have been saved.",
+	                  		  icon: "success",
+	                  		  button: "OK",
+	                  		})
+	                  		.then((result) => {
+	                  		  if (result) {
+	                  			  window.location.href = response.redirectUrl;
+	                  		  }
+	                  		});
+	                    },
+	                	error : function (jqXHR, textStatus, errorThrown){
+	                		console.log(jqXHR);  //응답 메시지
+	                		console.log(textStatus); //"error"로 고정인듯함
+	                		console.log(errorThrown);
+	                	}
+	                })
+	            	
+	        	});
+	</script>
+
+	<!-- fontawesome -->
+	<script src="https://kit.fontawesome.com/64b5a4efc1.js" crossorigin="anonymous"></script>
+	
+	<!-- https://sweetalert.js.org/guides/ -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 
 </body>
 </html>
