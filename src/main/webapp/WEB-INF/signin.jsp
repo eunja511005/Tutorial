@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
   <head>
-
+	<script src="/js/color-modes.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -171,47 +171,47 @@
                     url : '/signin',
                     contentType : 'application/x-www-form-urlencoded; charset=utf-8',
                     data : myFormData,
-                    dataType : 'json',
+                    dataType : 'text',
                     beforeSend : function(xhr){   
         				xhr.setRequestHeader(csrfheader, csrftoken);
-                    }
-                }).done(function (data) {
-                    <!--alert("login success");-->
-                    debugger;
-                    //alert(data.result);
-                    window.location.href = "/initInit";
-                 	/* swal({
-                		  title: data.result,
-                		  text: "Click the button to go to the main page.",
-                		  icon: "success",
-                		  button: "OK",
-                		})
-                		.then((result) => {
-                		  if (result) {
-                			  window.location.href = "/initInit";
-                		  }
-                		}); */                    
-                }).fail(function (error) {
-                	debugger;
-                    var errText;
-                    if(JSON.stringify(error.status)==401){
-                        errText="Invalid username or password";
-                    }else{
-                        errText="UnKnown error";
-                    }
-                    //alert("login fail : "+errText);
-                    swal({
-              		  title: "Login Fail!",
-              		  text: "Error : "+errText,
-              		  icon: "warning",
-              		  button: "OK",
-              		}) 
-              		.then((result) => {
-              		  if (result) {
-              			  window.location.href = "/signout";
-              		  }
-              		});
-                });
+                    },
+                    success: function(response) {
+                    	var response = JSON.parse(response);
+                    	
+                        if(response.code=='200'){
+                        	swal({
+                        		  title: response.result,
+                        		  text: "Click the button to go to the main page.",
+                        		  icon: "success",
+                        		  button: "OK",
+                        		})
+                        		.then((result) => {
+                        		  if (result) {
+                        			  window.location.href = "/initInit";
+                        		  }
+                        		});
+                        } else {
+                        	swal({
+                      		  title: "Unauthorized",
+                      		  text: "Error : "+response.result,
+                      		  icon: "warning",
+                      		  button: "OK",
+                      		}) 
+                      		.then((result) => {
+                      		  if (result) {
+                      			  window.location.href = "/signout";
+                      		  }
+                      		});
+                        }
+                    	
+                    	
+                    },
+                	error : function (jqXHR, textStatus, errorThrown){
+                		console.log(jqXHR);  //응답 메시지
+                		console.log(textStatus); //"error"로 고정인듯함
+                		console.log(errorThrown);
+                	}
+                })
                 
             });
         });

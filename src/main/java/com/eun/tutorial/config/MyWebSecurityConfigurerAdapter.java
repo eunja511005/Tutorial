@@ -122,6 +122,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                         
                         Map<String, String> res = new HashMap<>();
                         res.put("result", "login success");
+                        res.put("code", "200");
                         JSONObject json =  new JSONObject(res);
                         response.setContentType("application/json; charset=utf-8");
                         response.getWriter().print(json);
@@ -136,22 +137,17 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
                             //response.setStatus(400);
                         }
                         
-                        
-//                        zthmErrorRepository.save(ZthmError.builder()
-//                                .errorMessage("Login Error : "+exception.getMessage())
-//                                .build());
-//                        Map<String, String> res = new HashMap<>();
-//                        res.put("result", errMsg);
-//                        JSONObject json =  new JSONObject(res);
-//                        response.setContentType("application/json; charset=utf-8");
-//                        response.getWriter().print(json);
-                        
                         zthhErrorService.save(ZthhErrorDTO.builder()
                                 .errorMessage("MyWebSecurityConfigurerAdapter Error : " + exception.getMessage())
                                 .build()
                         );
                         
-                        response.sendRedirect("/");
+                        Map<String, String> res = new HashMap<>();
+                        res.put("result", errMsg);
+                        res.put("code", "401");
+                        JSONObject json =  new JSONObject(res);
+                        response.setContentType("application/json; charset=utf-8");
+                        response.getWriter().print(json);
                         
                     })
                     .permitAll();    
