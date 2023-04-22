@@ -37,7 +37,7 @@
 		WHEN MATCHED THEN /* ON 조건에 해당되는 것이 있으면 아래 실행(UPDATE) */
 			UPDATE SET       
 				update_id = #{updateId, jdbcType=VARCHAR}
-				,update_time = sysdate
+				,update_time = CURRENT_DATE
 				,content = #{content, mode=IN, jdbcType=CLOB, javaType=string}
 		WHEN NOT MATCHED THEN /* ON 조건에 매칭되지 않으면 아래 실행(Insert)*/
 		    INSERT (BOARD_ID, TITLE,
@@ -45,9 +45,9 @@
 		   		VALUES (#{boardId, jdbcType=VARCHAR, javaType=string},
 				   		#{title, jdbcType=VARCHAR}, 				   		
 				   		#{createId, jdbcType=VARCHAR}, 
-				   		sysdate, 
+				   		CURRENT_DATE, 
 				   		#{updateId, jdbcType=VARCHAR}, 
-				   		sysdate,
+				   		CURRENT_DATE,
 				   		EMPTY_CLOB())
   </insert>  
   

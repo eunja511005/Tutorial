@@ -59,9 +59,9 @@ CREATE TABLE zthh_error
     id             VARCHAR2(30),
     error_message   VARCHAR2(4000),
     create_id      VARCHAR2(30),
-    create_time    VARCHAR2(14),
+    create_time    date,
     update_id      VARCHAR2(30),
-    update_time    VARCHAR2(14),
+    update_time    date,
     CONSTRAINT zthh_error_pk PRIMARY KEY (id)
 );
 COMMENT ON TABLE zthh_error IS '에러 테이블';

@@ -39,9 +39,9 @@
 			#{fileSize, jdbcType=VARCHAR},
 			#{filePath, jdbcType=VARCHAR},
 			#{createId, jdbcType=VARCHAR}, 
-	   		to_char(sysdate,'yyyymmddhh24mmss'), 
+	   		to_char(CURRENT_DATE,'yyyymmddhh24mmss'), 
 	   		#{updateId, jdbcType=VARCHAR}, 
-	   		to_char(sysdate,'yyyymmddhh24mmss'))
+	   		to_char(CURRENT_DATE,'yyyymmddhh24mmss'))
   </insert>    
   
 </mapper>

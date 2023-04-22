@@ -1,6 +1,9 @@
 package com.eun.tutorial.dto;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +20,12 @@ public class ZthhErrorDTO implements Serializable{
 	private long id;
     private String errorMessage;
     private String createId;
-    private String createTime;
+    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
+    private Date createTime;
+    
     private String updateId;
-    private String updateTime;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
+    private Date updateTime;
 }

@@ -25,9 +25,9 @@
    		VALUES (error_seq.NEXTVAL,
    		#{errorMessage, jdbcType=VARCHAR}, 
    		#{createId, jdbcType=VARCHAR}, 
-   		to_char(sysdate,'yyyymmddhh24mmss'), 
+   		CURRENT_DATE, 
    		#{updateId, jdbcType=VARCHAR}, 
-   		to_char(sysdate,'yyyymmddhh24mmss')) 
+   		CURRENT_DATE) 
   </insert>  
 
 </mapper>

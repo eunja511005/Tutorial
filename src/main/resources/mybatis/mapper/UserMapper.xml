@@ -38,9 +38,9 @@
 				   		#{picture, jdbcType=VARCHAR},
 				   		#{isEnable},
 				   		#{createId, jdbcType=VARCHAR}, 
-				   		to_char(sysdate,'yyyymmddhh24miss'), 
+				   		to_char(CURRENT_DATE,'yyyymmddhh24miss'), 
 				   		#{updateId, jdbcType=VARCHAR}, 
-				   		to_char(sysdate,'yyyymmddhh24miss'))
+				   		to_char(CURRENT_DATE,'yyyymmddhh24miss'))
   </insert>  
 
 </mapper>
