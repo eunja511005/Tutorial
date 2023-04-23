@@ -36,7 +36,7 @@ public class BoardController {
 	
 	private final ZthhBoardService zthhBoardService;
 	
-	@GetMapping("/saveForm")
+	@PostMapping("/saveForm")
 	public ModelAndView init() {
 		logger.debug("request url : /board/saveForm");
 		

@@ -42,7 +42,10 @@
         <thead>
 		    <tr>
 		        <th colspan="5">
-		            <a href="/board/saveForm" role="button" class="btn btn-primary btn-sm">NEW</a>
+					<form id="my-form" action="/board/saveForm" method="post">
+					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					  <button type="submit">New</button>
+					</form>
 		        </th>
 		    </tr>       
 	        <tr>
