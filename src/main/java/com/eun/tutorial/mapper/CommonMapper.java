@@ -10,4 +10,5 @@ import com.eun.tutorial.dto.ZthhErrorDTO;
 public interface CommonMapper {
 	int save(ZthhErrorDTO zthmError);
 	List<ZthhErrorDTO> findAll();
+	int delete(int deleteDay);
 }

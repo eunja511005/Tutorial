@@ -29,4 +29,9 @@ public class ZthhErrorServiceImpl implements ZthhErrorService {
     public List<ZthhErrorDTO> getErrorList() {
         return commonDao.findAll();
     }
+
+	@Override
+	public int delete(int deleteDay) {
+		return commonDao.delete(deleteDay);
+	}
 }

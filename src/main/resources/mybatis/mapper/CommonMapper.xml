@@ -29,5 +29,11 @@
    		#{updateId, jdbcType=VARCHAR}, 
    		CURRENT_DATE) 
   </insert>  
+  
+  <delete id="delete" parameterType="int"> 
+  	<![CDATA[
+    	DELETE FROM zthh_error where CREATE_TIME < CURRENT_DATE - #{deleteDay, jdbcType=INTEGER, javaType=int}
+    ]]>
+  </delete>    
 
 </mapper>
