@@ -1,33 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-  <head><script src="/js/color-modes.js"></script>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.111.3">
-    
-    <meta name="_csrf" content="${_csrf.token}"/>
-	<meta name="_csrf_header" content="${_csrf.headerName}"/>
-	
+  <head>
+    <jsp:include page="/WEB-INF/jsp/common/common.jsp"/>
     <title>Sign Up</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/checkout/">
-
-    
-
-    
-
-<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Favicons -->
-
-<link rel="icon" href="/img/favicons/favicon.ico">
-<meta name="theme-color" content="#712cf9">
-
-
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -246,12 +222,8 @@
   </footer>
 </div>
 
-    <script src="checkout.js"></script>
+	<jsp:include page="/WEB-INF/jsp/common/commonScript.jsp"/>
 
-    <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    
     <script type="text/javascript" src="/js/join4.js"></script>
     
     <script>
