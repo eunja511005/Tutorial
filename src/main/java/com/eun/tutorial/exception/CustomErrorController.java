@@ -52,6 +52,9 @@ public class CustomErrorController extends BasicErrorController {
 			case UNAUTHORIZED:
 				modelAndView.setViewName("jsp/error/401");
 				break;
+			case FORBIDDEN:
+				modelAndView.setViewName("jsp/error/403");
+				break;	
 			case NOT_FOUND:
 				modelAndView.setViewName("jsp/error/404");
 				break;
