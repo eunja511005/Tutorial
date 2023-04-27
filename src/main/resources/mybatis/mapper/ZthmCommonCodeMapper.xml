@@ -34,7 +34,7 @@
 				,code_description = #{codeDescription, jdbcType=VARCHAR, javaType=string}
 				,enable=#{isEnable}
 				,code_id=#{codeId, jdbcType=VARCHAR, javaType=string} 
-				,code_group_d=#{codeGroupId, jdbcType=VARCHAR, javaType=string} 
+				,code_group_id=#{codeGroupId, jdbcType=VARCHAR, javaType=string} 
 		WHEN NOT MATCHED THEN /* ON 조건에 매칭되지 않으면 아래 실행(Insert)*/
 		    INSERT (id, code_group_id, code_group_name, code_group_description, code_id, code_level, code_sequence, code_name, code_description, 
  					enable, create_id, create_time, update_id, update_time)
