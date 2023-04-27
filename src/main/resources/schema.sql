@@ -118,4 +118,39 @@ COMMENT ON COLUMN zthh_board.create_id IS '생성자';
 COMMENT ON COLUMN zthh_board.create_time IS '생성시간';
 COMMENT ON COLUMN zthh_board.update_id IS '수정자';
 COMMENT ON COLUMN zthh_board.update_time IS '수정시간';
+
+drop table zthm_common_code;
+CREATE TABLE zthm_common_code
+(
+	id                             VARCHAR2(200),
+    code_group_id                  VARCHAR2(30),
+    code_group_name                VARCHAR2(100),
+    code_group_description         VARCHAR2(300),
+    code_id                       VARCHAR2(30),
+    code_level                    NUMBER,
+    code_sequence                 NUMBER,
+    code_name                     VARCHAR2(100),
+    code_description              VARCHAR2(300),
+    enable        CHAR(1), 
+    create_id     VARCHAR2(30),
+    create_time   date,
+    update_id     VARCHAR2(30),
+    update_time   date,
+    CONSTRAINT PK_ZTHM_COMMON_CODE PRIMARY KEY (code_group_id, code_id)
+);
+COMMENT ON TABLE zthm_common_code IS '공통 코드관리 테이블';
+COMMENT ON COLUMN zthm_common_code.id IS '아이디';
+COMMENT ON COLUMN zthm_common_code.code_group_id IS '코드 그룹 아이디';
+COMMENT ON COLUMN zthm_common_code.code_group_name IS '코드 그룹 이름';
+COMMENT ON COLUMN zthm_common_code.code_group_description IS '코드 그룹 설명';
+COMMENT ON COLUMN zthm_common_code.code_id IS '코드 아이디';
+COMMENT ON COLUMN zthm_common_code.code_level IS '코드 레벨';
+COMMENT ON COLUMN zthm_common_code.code_sequence IS '코드 순서';
+COMMENT ON COLUMN zthm_common_code.code_name IS '코드 네임';
+COMMENT ON COLUMN zthm_common_code.code_description IS '코드 설명';
+COMMENT ON COLUMN zthm_common_code.enable IS '사용여부';
+COMMENT ON COLUMN zthm_common_code.create_id IS '생성자';
+COMMENT ON COLUMN zthm_common_code.create_time IS '생성시간';
+COMMENT ON COLUMN zthm_common_code.update_id IS '수정자';
+COMMENT ON COLUMN zthm_common_code.update_time IS '수정시간';
 */

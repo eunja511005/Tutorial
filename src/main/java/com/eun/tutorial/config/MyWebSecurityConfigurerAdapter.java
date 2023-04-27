@@ -92,6 +92,8 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          */
         http.headers().frameOptions().sameOrigin();
         
+        http.authorizeRequests().antMatchers("/board/**").hasRole("FAMILY");
+        
         
         http
         .authorizeRequests() // 접근에 대한 인증 설정
