@@ -21,7 +21,19 @@
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/board/listForm">Board</a></li>
-		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/code/listForm">Code</a></li>
+		                
+		                
+				        <li class="nav-item mx-0 mx-lg-1 dropdown">
+				          <a class="nav-link py-3 px-0 px-lg-3 rounded dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            ADMIN
+				          </a>
+				          <ul class="dropdown-menu">
+				            <li><a class="dropdown-item" href="/code/listForm">Code</a></li>
+				            <li><a class="dropdown-item" href="/code/mapping/listForm">CodeMapping</a></li>
+				          </ul>
+				        </li>
+        
+		                
 		                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="javascript:logout()">
 		                                                  	<img src="" alt="User Profile Image" class="rounded-circle" width="35" height="35" id="userProfileImg">
 		                                                  </a>
