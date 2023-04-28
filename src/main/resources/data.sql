@@ -38,4 +38,10 @@ INSERT INTO ZTHM_COMMON_CODE
  enable, create_id, create_time, update_id, update_time)
 VALUES(code_seq.NEXTVAL, 'ROLE', '역할', '역할 구분', 'USER', '1', '3', '일반 사용자', '일반 사용자', 
 '1', 'ywbest.park', CURRENT_DATE, 'ywbest.park', CURRENT_DATE);
+
+INSERT INTO ZTHM_COMMON_CODE_MAPPING
+(code_mapping_id, code_mapping_name, code_mapping_description, from_code_id, to_code_id,  
+ enable, create_id, create_time, update_id, update_time)
+VALUES(code_mapping_seq.NEXTVAL, 'ACTION_ROLE', 'action과 role 맵핑', '/board/listForm', 'FAMILY',
+'1', 'ywbest.park', CURRENT_DATE, 'ywbest.park', CURRENT_DATE);
 */   

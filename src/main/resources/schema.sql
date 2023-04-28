@@ -30,8 +30,8 @@ CREATE TABLE zthm_user
 (
     username      VARCHAR2(30),
     password      VARCHAR2(100),
-    email         VARCHAR2(30),
-    role          VARCHAR2(30),
+    email         VARCHAR2(100),
+    role          VARCHAR2(200),
     picture       VARCHAR2(50),
     enable        CHAR(1), 
     create_id     VARCHAR2(30),
@@ -153,4 +153,32 @@ COMMENT ON COLUMN zthm_common_code.create_id IS '생성자';
 COMMENT ON COLUMN zthm_common_code.create_time IS '생성시간';
 COMMENT ON COLUMN zthm_common_code.update_id IS '수정자';
 COMMENT ON COLUMN zthm_common_code.update_time IS '수정시간';
+
+-- CREATE SEQUENCE code_mapping_seq START WITH 1 INCREMENT BY 1 MAXVALUE 1000 CYCLE NOCACHE;
+drop table zthm_common_code_mapping;
+CREATE TABLE zthm_common_code_mapping
+(
+	code_mapping_id                       VARCHAR2(200),
+	code_mapping_name                     VARCHAR2(30),
+	code_mapping_description              VARCHAR2(300),
+    from_code_id                          VARCHAR2(30),
+    to_code_id                            VARCHAR2(30),
+    enable        CHAR(1), 
+    create_id     VARCHAR2(30),
+    create_time   date,
+    update_id     VARCHAR2(30),
+    update_time   date,
+    CONSTRAINT PK_ZTHM_COMMON_CODE_MAPPING PRIMARY KEY (code_mapping_name, from_code_id)
+);
+COMMENT ON TABLE zthm_common_code_mapping IS '공통 코드 맵핑 테이블';
+COMMENT ON COLUMN zthm_common_code_mapping.code_mapping_id IS '아이디';
+COMMENT ON COLUMN zthm_common_code_mapping.code_mapping_description IS '코드 맵핑 설명';
+COMMENT ON COLUMN zthm_common_code_mapping.code_group_name IS '코드 그룹 이름';
+COMMENT ON COLUMN zthm_common_code_mapping.from_code_id IS 'From 코드 그룹 아이디';
+COMMENT ON COLUMN zthm_common_code_mapping.to_code_id IS 'To 코드 아이디';
+COMMENT ON COLUMN zthm_common_code_mapping.enable IS '사용여부';
+COMMENT ON COLUMN zthm_common_code_mapping.create_id IS '생성자';
+COMMENT ON COLUMN zthm_common_code_mapping.create_time IS '생성시간';
+COMMENT ON COLUMN zthm_common_code_mapping.update_id IS '수정자';
+COMMENT ON COLUMN zthm_common_code_mapping.update_time IS '수정시간';
 */

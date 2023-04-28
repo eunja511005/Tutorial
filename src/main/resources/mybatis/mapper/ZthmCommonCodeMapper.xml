@@ -18,6 +18,17 @@
   	WHERE id = #{id, jdbcType=VARCHAR, javaType=string}
   </select>
   
+  <select id="findByGroupId" parameterType="hashMap" resultType="com.eun.tutorial.dto.ZthmCommonCodeDTO">
+	<![CDATA[
+	  	SELECT id, code_group_id, code_group_name, code_group_description, code_id, code_level, code_sequence, code_name, code_description, 
+	 		    enable, create_id, create_time, update_id, update_time
+	  	FROM zthm_common_code code_level
+	  	WHERE code_group_id = #{codeGroupId, jdbcType=VARCHAR, javaType=string}
+	  	AND code_level <> 0
+	  	AND enable=1
+  	]]>
+  </select>  
+  
   <insert id="save" parameterType="com.eun.tutorial.dto.ZthmCommonCodeDTO"> 
 		MERGE INTO zthm_common_code 
 		USING DUAL 

@@ -1,9 +1,8 @@
 package com.eun.tutorial.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.management.RuntimeErrorException;
 
 import org.json.JSONObject;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -23,10 +22,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
-import com.eun.tutorial.dto.UserInfoDTO;
 import com.eun.tutorial.dto.ZthhErrorDTO;
+import com.eun.tutorial.dto.ZthmCommonCodeMappingDTO;
 import com.eun.tutorial.service.ZthhErrorService;
-import com.eun.tutorial.service.user.UserDetailsImpl;
+import com.eun.tutorial.service.ZthmCommonCodeMappingService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 	
 	private final ZthhErrorService zthhErrorService;
+	private final ZthmCommonCodeMappingService zthmCommonCodeMappingService;
 	
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -92,7 +92,13 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
          */
         http.headers().frameOptions().sameOrigin();
         
-        http.authorizeRequests().antMatchers("/board/**").hasRole("FAMILY");
+        /**
+         * Action별 권한 체크
+         */
+        List<ZthmCommonCodeMappingDTO> zthmCommonCodeMappingList = zthmCommonCodeMappingService.findByCodeMappingName("ACTION_ROLE");
+        for (ZthmCommonCodeMappingDTO zthmCommonCodeMappingDTO : zthmCommonCodeMappingList) {
+        	http.authorizeRequests().antMatchers(zthmCommonCodeMappingDTO.getFromCodeId()).hasRole(zthmCommonCodeMappingDTO.getToCodeId());
+		}
         
         
         http

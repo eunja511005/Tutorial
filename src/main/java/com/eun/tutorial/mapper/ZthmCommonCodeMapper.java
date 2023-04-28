@@ -13,4 +13,5 @@ public interface ZthmCommonCodeMapper {
 	List<ZthmCommonCodeDTO> findAll();
 	ZthmCommonCodeDTO findOne(Map<String, Object> map);
 	int delete(String id);
+	List<ZthmCommonCodeDTO> findByGroupId(String string);
 }
