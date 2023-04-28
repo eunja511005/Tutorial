@@ -54,4 +54,10 @@ public class ZthhBoardServiceImpl implements ZthhBoardService {
 		// TODO Auto-generated method stub
 		return zthhBoardMapper.delete(id);
 	}
+
+	@Override
+	public ZthhBoardDTO findById(String boardId) {
+		// TODO Auto-generated method stub
+		return zthhBoardMapper.findById(boardId);
+	}
 }

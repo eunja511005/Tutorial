@@ -180,8 +180,6 @@
 	      	                    },
 	      	                    error : function (jqXHR, textStatus, errorThrown){
 	      	                		console.log(jqXHR);  //응답 메시지
-	      	                		console.log(textStatus); //"error"로 고정인듯함
-	      	                		console.log(errorThrown);
 	      	                	}
 	      	                });
 	            		  } else {
@@ -214,8 +212,30 @@
 	                var rowData=dataTableRow.data();
 					
 	                currentBoradId = rowData.boardId;
-	                $('#summernote').summernote('code', rowData.content);
-			        $('#contentModal').modal('show');
+	                
+  	                $.ajax({
+  	                    url: '/board/list/'+ currentBoradId,
+  	                    type: 'POST',
+  	                    beforeSend : function(xhr){   
+  	        				xhr.setRequestHeader(csrfheader, csrftoken);
+  	                    },
+  	                    success: function(response) {
+  	                    	
+  	                    	//var response = JSON.parse(response);
+  	                    	
+  	                    	if(response.boardList != undefined && response.boardList != ""){
+  	                    		$('#summernote').summernote('code', response.boardList.content);
+  	      			       		$('#contentModal').modal('show');
+  	                    	}
+  	                    },
+  	                    error : function (jqXHR, textStatus, errorThrown){
+  	                		console.log(jqXHR);  //응답 메시지
+  	                	}
+  	                });	                
+	                
+	                
+	                
+	                
 	        	});
 	            
 	            $(document).on('click', '.btn-secondary', function(){ 

@@ -17,10 +17,18 @@
 </resultMap>
 
   <select id="findAll" resultType="com.eun.tutorial.dto.ZthhBoardDTO">
+  	SELECT board_id, title,
+  	       create_id, create_time, 
+  	       update_id, update_time
+    FROM zthh_board
+  </select>
+  
+  <select id="findById" resultType="com.eun.tutorial.dto.ZthhBoardDTO">
   	SELECT board_id, title, content,
   	       create_id, create_time, 
   	       update_id, update_time
     FROM zthh_board
+    WHERE board_id = #{boardId, jdbcType=VARCHAR, javaType=string}
   </select>
   
   <select id="getError" parameterType="hashMap" resultType="com.eun.tutorial.dto.ZthhBoardDTO">

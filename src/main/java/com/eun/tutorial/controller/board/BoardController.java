@@ -80,11 +80,19 @@ public class BoardController {
     	
     	Map<String, Object> res = new HashMap<>();
     	
-    	
-    	List<ZthhBoardDTO> zthhBoardList = zthhBoardService.findAll();
-    	
     	res.put("result", "upload success");
         res.put("boardList", zthhBoardService.findAll());
+		return res;
+	}
+	
+	@PostMapping("/list/{boardId}")
+	public @ResponseBody Map<String, Object> list(@PathVariable String boardId){
+    	logger.debug("request url : /join");
+    	
+    	Map<String, Object> res = new HashMap<>();
+    	
+    	res.put("result", "upload success");
+        res.put("boardList", zthhBoardService.findById(boardId));
 		return res;
 	}
 	
