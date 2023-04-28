@@ -98,17 +98,28 @@ $('#newCodeModal .modal-footer button.btn-primary').on('click', function() {
 		},
 		data: JSON.stringify(json),
 		success: function(response) {
-			// Close the modal
-			var modal = $('#newCodeModal');
-			var modalInstance = bootstrap.Modal.getInstance(modal);
-			modalInstance.hide();
-
-			// Reset form
-			$('#newCodeModal form')[0].reset();
 			
-			if (response.redirectUrl != undefined && response.redirectUrl != "") {
-				window.location.href = response.redirectUrl;
-			}
+			swal({
+	        	title: response.result,
+	        	text: "Your changes have been saved.",
+	        	icon: "success",
+	        	button: "OK",
+	        	})
+	        	.then((result) => {
+	        	if (result) {
+					// Close the modal
+					var modal = $('#newCodeModal');
+					var modalInstance = bootstrap.Modal.getInstance(modal);
+					modalInstance.hide();
+		
+					// Reset form
+					$('#newCodeModal form')[0].reset();
+					
+					if (response.redirectUrl != undefined && response.redirectUrl != "") {
+						window.location.href = response.redirectUrl;
+					}
+	        	}
+	            });			
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);  //응답 메시지

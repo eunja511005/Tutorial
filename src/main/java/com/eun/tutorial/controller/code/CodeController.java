@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.tika.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -59,7 +60,12 @@ public class CodeController {
     	
     	Map<String, Object> res = new HashMap<>();
     	
-    	res.put("result", "new code save success");
+    	if(StringUtils.isBlank(zthmCommonCodeDTO.getId())) {
+    		res.put("result", "A new code has been created.");
+    	}else {
+    		res.put("result", "A code changed.");
+    	}
+    	
         res.put("redirectUrl", "/code/listForm");
 		return res;
 	}
