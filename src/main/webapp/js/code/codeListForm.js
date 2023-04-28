@@ -65,83 +65,22 @@ $(document).ready(function() {
 			{ "className": "text-right", "targets": [4, 5] },
 			{ "className": "text-center", "targets": [11, 12] },
 		],
-		order: [[10, 'desc']]
+		order: [[0, 'desc'], [3, 'desc'], [10, 'desc']]
 	});
 
 });
 
 // Attach click event to "Save Changes" button
 $('#newCodeModal .modal-footer button.btn-primary').on('click', function() {
-	// Get form data
-	var formData = new FormData($('#newCodeModal form')[0]);
-
-	// Convert FormData object to JSON object
-	var json = {};
-	formData.forEach(function(value, key) {
-      // If the key is "enable", set the value as a boolean
-      if (key === 'enable') {
-        json[key] = $("#enable").is(':checked');
-      } else {
-        json[key] = value;
-      }
-	});
-
-	// Send AJAX request to save data
-	$.ajax({
-		url: '/code/save',
-		method: 'POST',
-		beforeSend: function(xhr) {
-			xhr.setRequestHeader(csrfheader, csrftoken);
-		},
-		headers: {
-			'Content-Type': 'application/json; charset=UTF-8'
-		},
-		data: JSON.stringify(json),
-		success: function(response) {
-			
-			swal({
-	        	title: response.result,
-	        	text: "Your changes have been saved.",
-	        	icon: "success",
-	        	button: "OK",
-	        	})
-	        	.then((result) => {
-	        	if (result) {
-					// Close the modal
-					var modal = $('#newCodeModal');
-					var modalInstance = bootstrap.Modal.getInstance(modal);
-					modalInstance.hide();
-		
-					// Reset form
-					$('#newCodeModal form')[0].reset();
-					
-					if (response.redirectUrl != undefined && response.redirectUrl != "") {
-						window.location.href = response.redirectUrl;
-					}
-	        	}
-	            });			
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);  //응답 메시지
-			swal({
-				title: "Registration failed",
-				text: "Error : " + jqXHR.responseJSON.message,
-				icon: "warning",
-				button: "OK",
-			})
-				.then((result) => {
-					if (result) {
-						// Close the modal
-						var modal = $('#newCodeModal');
-						var modalInstance = bootstrap.Modal.getInstance(modal);
-						modalInstance.hide();
-
-						// Reset form
-						$('#newCodeModal form')[0].reset();
-					}
-				});
-		}		
-	});
+	var form = $('#newCodeForm')[0];
+	if (form.checkValidity() === false) {
+		event.preventDefault();
+		event.stopPropagation();
+	}
+	form.classList.add('was-validated');
+	if (form.checkValidity() === true) {
+		save();
+	}
 });
 
 // Bind click event to delete button
@@ -260,3 +199,76 @@ $(document).on('click', '#updateContents', function() {
 	})
 
 });
+
+function save(){
+	// Get form data
+	var formData = new FormData($('#newCodeModal form')[0]);
+
+	// Convert FormData object to JSON object
+	var json = {};
+	formData.forEach(function(value, key) {
+      // If the key is "enable", set the value as a boolean
+      if (key === 'enable') {
+        json[key] = $("#enable").is(':checked');
+      } else {
+        json[key] = value;
+      }
+	});
+
+	// Send AJAX request to save data
+	$.ajax({
+		url: '/code/save',
+		method: 'POST',
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfheader, csrftoken);
+		},
+		headers: {
+			'Content-Type': 'application/json; charset=UTF-8'
+		},
+		data: JSON.stringify(json),
+		success: function(response) {
+			
+			swal({
+	        	title: response.result,
+	        	text: "Your changes have been saved.",
+	        	icon: "success",
+	        	button: "OK",
+	        	})
+	        	.then((result) => {
+	        	if (result) {
+					// Close the modal
+					var modal = $('#newCodeModal');
+					var modalInstance = bootstrap.Modal.getInstance(modal);
+					modalInstance.hide();
+		
+					// Reset form
+					$('#newCodeModal form')[0].reset();
+					
+					if (response.redirectUrl != undefined && response.redirectUrl != "") {
+						window.location.href = response.redirectUrl;
+					}
+	        	}
+	            });			
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR);  //응답 메시지
+			swal({
+				title: "Registration failed",
+				text: "Error : " + jqXHR.responseJSON.message,
+				icon: "warning",
+				button: "OK",
+			})
+				.then((result) => {
+					if (result) {
+						// Close the modal
+						var modal = $('#newCodeModal');
+						var modalInstance = bootstrap.Modal.getInstance(modal);
+						modalInstance.hide();
+
+						// Reset form
+						$('#newCodeModal form')[0].reset();
+					}
+				});
+		}		
+	});	
+}

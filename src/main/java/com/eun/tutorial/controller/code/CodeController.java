@@ -105,21 +105,4 @@ public class CodeController {
         res.put("redirectUrl", "/code/listForm");
 		return res;
 	}
-	
-    @PutMapping("/update")
-    public @ResponseBody Map<String, Object> updateContent(Authentication authentication, @RequestBody ZthmCommonCodeDTO zthmCommonCodeDTO){
-
-        log.info(zthmCommonCodeDTO.toString());
-        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
-        zthmCommonCodeDTO.setCreateId(userDetailsImpl.getUsername());
-        zthmCommonCodeDTO.setUpdateId(userDetailsImpl.getUsername());
-
-    	zthmCommonCodeService.save(zthmCommonCodeDTO);
-        
-    	Map<String, Object> res = new HashMap<>();
-    	
-    	res.put("result", "update success");
-        res.put("redirectUrl", "/code/listForm");
-		return res;
-    }
 }
