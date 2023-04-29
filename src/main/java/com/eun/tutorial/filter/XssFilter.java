@@ -33,23 +33,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Slf4j
-@Component
 public class XssFilter implements Filter {
 
-	@Autowired
+	private AntiSamy antiSamy;
 	private ZthhErrorService zthhErrorService;
 	
-    @Autowired
-    private ResourceLoader resourceLoader;
-
-	private AntiSamy antiSamy;
-	
-	public XssFilter() {
+	public XssFilter(ResourceLoader resourceLoader, ZthhErrorService zthhErrorService) {
 		try {
 			Resource resource = resourceLoader.getResource("classpath:antisamy.xml");
 			InputStream inputStream = resource.getInputStream();
 			Policy policy = Policy.getInstance(inputStream);
 			this.antiSamy = new AntiSamy(policy);
+			this.zthhErrorService = zthhErrorService;
 		} catch (Exception e) {
 			log.error("Error initializing AntiSamy", e);
 		}
@@ -79,15 +74,5 @@ public class XssFilter implements Filter {
 		}
 
 	}
-	
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        // Do nothing
-    }
-
-    @Override
-    public void destroy() {
-        // Do nothing
-    }
 
 }
