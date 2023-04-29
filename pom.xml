@@ -152,6 +152,15 @@
 	      <groupId>org.springframework.batch</groupId>
 	      <artifactId>spring-batch-test</artifactId>
 	    </dependency>
+	    
+	    <!-- XSS 방지를 위한 OWASP antisamy 라이브러리 사용 -->
+		<dependency>
+		    <groupId>org.owasp.antisamy</groupId>
+		    <artifactId>antisamy</artifactId>
+		    <version>1.7.3</version>
+		</dependency>
+
+    
 			
 	</dependencies>
 
