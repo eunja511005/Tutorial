@@ -41,6 +41,10 @@ public class XssFilter implements Filter {
 	private ZthhErrorService zthhErrorService;
 
 	private AntiSamy antiSamy;
+	
+	public XssFilter() {
+		super();
+	}
 
 	public XssFilter(ResourceLoader resourceLoader) {
 		try {
@@ -76,16 +80,6 @@ public class XssFilter implements Filter {
 			e.printStackTrace();
 		}
 
-	}
-
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		// Do nothing
-	}
-
-	@Override
-	public void destroy() {
-		// Do nothing
 	}
 
 }
