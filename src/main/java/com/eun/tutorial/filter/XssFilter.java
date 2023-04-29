@@ -81,5 +81,15 @@ public class XssFilter implements Filter {
 		}
 
 	}
+	
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // Do nothing
+    }
+
+    @Override
+    public void destroy() {
+        // Do nothing
+    }
 
 }
