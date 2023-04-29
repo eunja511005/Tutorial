@@ -36,46 +36,56 @@ import java.util.Map;
 @WebFilter("/*")
 @Component
 public class XssFilter implements Filter {
-	
+
 	@Autowired
 	private ZthhErrorService zthhErrorService;
 
-    private AntiSamy antiSamy;
+	private AntiSamy antiSamy;
 
-    public XssFilter(ResourceLoader resourceLoader) {
-        try {
-            Resource resource = resourceLoader.getResource("classpath:antisamy.xml");
-            InputStream inputStream = resource.getInputStream();
-            Policy policy = Policy.getInstance(inputStream);
-            this.antiSamy = new AntiSamy(policy);
-        } catch (Exception e) {
-            log.error("Error initializing AntiSamy", e);
-        }
-    }
+	public XssFilter(ResourceLoader resourceLoader) {
+		try {
+			Resource resource = resourceLoader.getResource("classpath:antisamy.xml");
+			InputStream inputStream = resource.getInputStream();
+			Policy policy = Policy.getInstance(inputStream);
+			this.antiSamy = new AntiSamy(policy);
+		} catch (Exception e) {
+			log.error("Error initializing AntiSamy", e);
+		}
+	}
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        
+	@Override
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+			throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
+
 		try {
 			XssRequestWrapper wrappedRequest = new XssRequestWrapper(request, antiSamy, zthhErrorService);
 			filterChain.doFilter(wrappedRequest, response);
 		} catch (PolicyException | IOException e) {
-			
-	        String errorMessage = org.apache.tika.utils.ExceptionUtils.getStackTrace(e);
 
-	        if(errorMessage.length()>2000) {
-	        	errorMessage = errorMessage.substring(0, 2000);
-	        }
-	        
-	        zthhErrorService.save(ZthhErrorDTO.builder()
-	                                .errorMessage("GlobalExceptionHandler Error : " + errorMessage)
-	                                .build()
-	        );
-			
+			String errorMessage = org.apache.tika.utils.ExceptionUtils.getStackTrace(e);
+
+			if (errorMessage.length() > 2000) {
+				errorMessage = errorMessage.substring(0, 2000);
+			}
+
+			zthhErrorService.save(
+					ZthhErrorDTO.builder().errorMessage("GlobalExceptionHandler Error : " + errorMessage).build());
+
 			e.printStackTrace();
 		}
 
-    }
+	}
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// Do nothing
+	}
+
+	@Override
+	public void destroy() {
+		// Do nothing
+	}
+
 }
