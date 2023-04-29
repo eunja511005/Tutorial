@@ -33,20 +33,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Slf4j
-@WebFilter("/*")
 @Component
 public class XssFilter implements Filter {
 
 	@Autowired
 	private ZthhErrorService zthhErrorService;
+	
+    @Autowired
+    private ResourceLoader resourceLoader;
 
 	private AntiSamy antiSamy;
 	
 	public XssFilter() {
-		super();
-	}
-
-	public XssFilter(ResourceLoader resourceLoader) {
 		try {
 			Resource resource = resourceLoader.getResource("classpath:antisamy.xml");
 			InputStream inputStream = resource.getInputStream();
