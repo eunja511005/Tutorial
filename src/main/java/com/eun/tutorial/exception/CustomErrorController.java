@@ -86,7 +86,7 @@ public class CustomErrorController extends BasicErrorController {
     
     private void saveZthhError(Map<String, Object> errorMap) {
     	zthhErrorService.save(ZthhErrorDTO.builder()
-                .errorMessage("MyWebSecurityConfigurerAdapter Error : " + errorMap.toString())
+                .errorMessage("CustomErrorController Error : " + errorMap.toString())
                 .build()
         );
     }
