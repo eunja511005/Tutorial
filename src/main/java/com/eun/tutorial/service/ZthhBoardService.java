@@ -5,11 +5,13 @@ import java.util.Map;
 
 import com.eun.tutorial.dto.ZthhBoardDTO;
 import com.eun.tutorial.dto.ZthhFileAttachDTO;
+import com.eun.tutorial.service.user.UserDetailsImpl;
 
 public interface ZthhBoardService {
 	int save(ZthhBoardDTO zthhBoard);
 	List<ZthhBoardDTO> findAll();
 	ZthhBoardDTO getOne(Map<String, Object> map);
-	int delete(String id);
-	ZthhBoardDTO findById(String boardId);
+	Map<String, Object> delete(String id, UserDetailsImpl userDetailsImpl);
+	Map<String, Object> findById(String boardId, UserDetailsImpl userDetailsImpl);
+	int update(ZthhBoardDTO zthhBoardDTO);
 }

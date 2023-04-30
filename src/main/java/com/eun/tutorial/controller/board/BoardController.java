@@ -86,13 +86,13 @@ public class BoardController {
 	}
 	
 	@PostMapping("/list/{boardId}")
-	public @ResponseBody Map<String, Object> list(@PathVariable String boardId){
+	public @ResponseBody Map<String, Object> list(Authentication authentication, @PathVariable String boardId){
     	logger.debug("request url : /join");
     	
-    	Map<String, Object> res = new HashMap<>();
+    	UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
     	
-    	res.put("result", "upload success");
-        res.put("boardList", zthhBoardService.findById(boardId));
+    	Map<String, Object> res = zthhBoardService.findById(boardId, userDetailsImpl);
+    	
 		return res;
 	}
 	
@@ -102,12 +102,8 @@ public class BoardController {
     	
     	UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
     	
-    	zthhBoardService.delete(id);
+    	Map<String, Object> res = zthhBoardService.delete(id, userDetailsImpl);
     	
-    	Map<String, Object> res = new HashMap<>();
-    	
-    	res.put("result", "delete success");
-        res.put("redirectUrl", "/board/listForm");
 		return res;
 	}
 	
@@ -119,7 +115,7 @@ public class BoardController {
     	zthhBoardDTO.setCreateId(userDetailsImpl.getUsername());
     	zthhBoardDTO.setUpdateId(userDetailsImpl.getUsername());
 
-        zthhBoardService.save(zthhBoardDTO);
+        zthhBoardService.update(zthhBoardDTO);
         
     	Map<String, Object> res = new HashMap<>();
     	

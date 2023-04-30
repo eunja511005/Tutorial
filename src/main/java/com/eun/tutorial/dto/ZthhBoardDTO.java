@@ -20,6 +20,7 @@ public class ZthhBoardDTO implements Serializable{
 	private String boardId;
     private String title;
     private String content;
+    private boolean isSecret;
     private String createId;
     
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")

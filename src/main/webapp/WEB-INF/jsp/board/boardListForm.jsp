@@ -41,7 +41,7 @@
     <table id="example" class="display" style="width:100%">
         <thead>
 		    <tr>
-		        <th colspan="5">
+		        <th colspan="6">
 					<form id="my-form" action="/board/saveForm" method="post">
 					  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					  <button type="submit">New</button>
@@ -52,6 +52,7 @@
 	            <th>Title</th>
 	            <th>User</th>
 	            <th>Time</th>
+	            <th>Secret</th>
 	            <th>Contents</th>
 	            <th>Delete</th>
 	        </tr>
@@ -72,7 +73,32 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <textarea class="form-control" id="summernote" name="content" rows="10"></textarea>
+		<form id="boardForm">
+			  <div class="row my-4">
+			    <div class="col-md-12">
+			      <div class="form-check">
+			        <input type="checkbox" class="form-check-input" id="isSecret">
+			        <label class="form-check-label" for="isSecret">Is Secret</label>
+			      </div>
+			    </div>
+			  </div>	
+			  <div class="row my-4">
+			    <div class="col-md-12">
+			      <div>
+			        <label for="title" class="form-label">Title</label>
+			        <input type="text" class="form-control" id="title" name="title" placeholder="title">
+			      </div>
+			    </div>
+			  </div>
+			  <div class="row">
+			    <div class="col-md-12">
+			      <div>
+			        <label for="content" class="form-label">Content</label>
+			        <textarea class="form-control" id="summernote" name="content" rows="10"></textarea>
+			      </div>  
+			    </div>
+			  </div>
+		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -129,6 +155,15 @@
 	                    		   return data;
 	                    	   }
 	                       },
+	                       { data: 'secret', 
+	                    	    "render": function(data, type, row, meta) {
+	                    	        if (data == true) {
+	                    	            return '<i class="fa-solid fa-lock" aria-hidden="true"></i>';
+	                    	        } else {
+	                    	            return '<i class="fa-solid fa-unlock" aria-hidden="true"></i>';
+	                    	        }
+	                    	    }
+	                    	},
 	                       { data: 'content',
 	                    	   "render": function(data, type, row, meta){
 	                    		   //return '<button type="button" class="btn btn-primary">View Content</button>';
@@ -202,6 +237,13 @@
 	      	                    success: function(response) {
 	      	                    	if(response.redirectUrl != undefined && response.redirectUrl != ""){
 	      	                    		window.location.href = response.redirectUrl;
+	      	                    	}else{
+	      	                    		swal({
+	        		                  		  title: response.result,
+	        		                  		  text: "You are not authorized to delete this content.",
+	        		                  		  icon: "warning",
+	        		                  		  button: "OK",
+	        		                  		})	      	                    		
 	      	                    	}
 	      	                    },
 	      	                    error : function (jqXHR, textStatus, errorThrown){
@@ -251,7 +293,16 @@
   	                    	
   	                    	if(response.boardList != undefined && response.boardList != ""){
   	                    		$('#summernote').summernote('code', response.boardList.content);
-  	      			       		$('#contentModal').modal('show');
+  	      			       	    $('#title').val(response.boardList.title);
+  	      			       		$('#isSecret').prop('checked', response.boardList.secret);
+  	                    		$('#contentModal').modal('show');
+  	                    	}else{
+  		                    	swal({
+  		                  		  title: response.result,
+  		                  		  text: "You are not authorized to view this content.",
+  		                  		  icon: "warning",
+  		                  		  button: "OK",
+  		                  		})
   	                    	}
   	                    },
   	                    error : function (jqXHR, textStatus, errorThrown){
@@ -271,6 +322,8 @@
 	            $(document).on('click', '#updateContents', function(){ 
 	                var data = {
 	                	boardId : currentBoradId,
+	                	title : $('#title').val(),
+	                	secret : $('#isSecret').is(':checked'),
 	                    content : $('#summernote').summernote('code')
 	                };
 	            	

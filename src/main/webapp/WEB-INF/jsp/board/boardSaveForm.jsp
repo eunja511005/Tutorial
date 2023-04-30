@@ -29,6 +29,14 @@
 	<form id="boardForm">
 		  <div class="row my-4">
 		    <div class="col-md-12">
+		      <div class="form-check">
+		        <input type="checkbox" class="form-check-input" id="isSecret">
+		        <label class="form-check-label" for="isSecret">Is Secret</label>
+		      </div>
+		    </div>
+		  </div>	
+		  <div class="row my-4">
+		    <div class="col-md-12">
 		      <div>
 		        <label for="title" class="form-label">Title</label>
 		        <input type="text" class="form-control" id="title" name="title" placeholder="title">

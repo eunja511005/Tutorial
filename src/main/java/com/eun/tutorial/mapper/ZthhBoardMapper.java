@@ -15,4 +15,5 @@ public interface ZthhBoardMapper {
 	ZthhBoardDTO getOne(Map<String, Object> map);
 	int delete(String id);
 	ZthhBoardDTO findById(String boardId);
+	int update(ZthhBoardDTO zthhBoardDTO);
 }

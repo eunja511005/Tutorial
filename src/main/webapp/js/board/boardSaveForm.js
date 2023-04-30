@@ -20,6 +20,8 @@ $(document).ready(function() {
                 event.preventDefault();
 
                 var formData = new FormData($(this)[0]);
+                var isSecret = $('#isSecret').is(':checked');
+				formData.append('secret', isSecret);
 
                 $.ajax({
                     url: '/board/save',

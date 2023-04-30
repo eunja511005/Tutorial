@@ -104,6 +104,8 @@ CREATE TABLE zthh_board (
     board_id VARCHAR2(200),
     title VARCHAR2(255),
     content CLOB,
+    secret  CHAR(1),
+    del_yn  CHAR(1) DEFAULT 0,
     create_id      VARCHAR2(30),
     create_time    date,
     update_id      VARCHAR2(30),
@@ -114,10 +116,16 @@ COMMENT ON TABLE zthh_board IS '글쓰기 테이블';
 COMMENT ON COLUMN zthh_board.board_id IS '글쓰기 ID';
 COMMENT ON COLUMN zthh_board.title IS '제목';
 COMMENT ON COLUMN zthh_board.content IS '내용';
+COMMENT ON COLUMN zthh_board.secret IS '비밀글 여부';
+COMMENT ON COLUMN zthh_board.del_yn IS '삭제 여부';
 COMMENT ON COLUMN zthh_board.create_id IS '생성자';
 COMMENT ON COLUMN zthh_board.create_time IS '생성시간';
 COMMENT ON COLUMN zthh_board.update_id IS '수정자';
 COMMENT ON COLUMN zthh_board.update_time IS '수정시간';
+CREATE TABLE ZTHH_BOARD_BACKUP AS SELECT * FROM ZTHH_BOARD;
+ALTER TABLE ZTHH_BOARD ADD secret CHAR(1);
+ALTER TABLE ZTHH_BOARD ADD del_yn CHAR(1);
+ALTER TABLE ZTHH_BOARD MODIFY del_yn default 0;
 
 drop table zthm_common_code;
 CREATE TABLE zthm_common_code
