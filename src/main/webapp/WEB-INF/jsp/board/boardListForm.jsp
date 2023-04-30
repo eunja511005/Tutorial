@@ -50,8 +50,8 @@
 		    </tr>       
 	        <tr>
 	            <th>Title</th>
-	            <th>User</th>
-	            <th>Time</th>
+	            <th>Creator</th>
+	            <th>Update</th>
 	            <th>Secret</th>
 	            <th>Contents</th>
 	            <th>Delete</th>
@@ -148,7 +148,7 @@
 	                   },
 	                   columns: [
 	                       { data: 'title'},
-	                       { data: 'updateId'},
+	                       { data: 'createId'},
 	                       { data: 'updateTime', 
 	                    	   "render": function(data, type, row, meta){
 	                    		   data = data;
