@@ -44,4 +44,18 @@ INSERT INTO ZTHM_COMMON_CODE_MAPPING
  enable, create_id, create_time, update_id, update_time)
 VALUES(code_mapping_seq.NEXTVAL, 'ACTION_ROLE', 'action과 role 맵핑', '/board/listForm', 'FAMILY',
 '1', 'ywbest.park', CURRENT_DATE, 'ywbest.park', CURRENT_DATE);
-*/   
+
+INSERT INTO zthh_project (id, name, description, start_date, end_date) VALUES 
+(1, 'Project 1', 'This is project 1', TO_DATE('2022-01-01', 'YYYY-MM-DD'), TO_DATE('2022-06-30', 'YYYY-MM-DD'));
+
+INSERT INTO zthh_project (id, name, description, start_date, end_date) VALUES 
+(2, 'Project 2', 'This is project 2', TO_DATE('2022-02-01', 'YYYY-MM-DD'), TO_DATE('2022-07-31', 'YYYY-MM-DD'));
+
+INSERT INTO zthh_project_participant (id, project_id, participant)
+VALUES (project_participant_seq.nextval, 1, 'John');
+
+INSERT INTO zthh_project_participant (id, project_id, participant)
+VALUES (project_participant_seq.nextval, 1, 'Jane');
+
+INSERT INTO zthh_project_participant (id, project_id, participant)
+VALUES (project_participant_seq.nextval, 2, 'Bob');*/   
