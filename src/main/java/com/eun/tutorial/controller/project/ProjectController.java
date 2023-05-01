@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,5 +80,15 @@ public class ProjectController {
     	
 		return res;
     }
+    
+	@DeleteMapping("/delete/{id}")
+	public @ResponseBody Map<String, Object> delete(Authentication authentication, @PathVariable String id){
+    	
+    	UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
+    	
+    	Map<String, Object> res = projectService.delete(id, userDetailsImpl);
+    	
+		return res;
+	}
 	
 }

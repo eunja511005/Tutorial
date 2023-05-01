@@ -2,9 +2,9 @@ var csrfheader = $("meta[name='_csrf_header']").attr("content");
 var csrftoken = $("meta[name='_csrf']").attr("content");
 
 $(document).ready(function() {
-	
+
 	$('form#projectForm').one('submit', function(event) {
-		
+
 		event.preventDefault(); // 이벤트 중지
 
 		var id = $('#id').val();
@@ -67,5 +67,55 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+
+
+	$(document).on('click', '.delete-button', function() {
+		var button = $(this);
+		var id = button.data('id');
+		button.prop('disabled', true);
+
+		swal({
+			title: "Are you sure you want to delete it?",
+			text: "Your information is safely managed.",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+			.then((willDelete) => {
+				if (willDelete) {
+
+					$.ajax({
+						url: '/project/delete/' + id,
+						type: 'DELETE',
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader(csrfheader, csrftoken);
+						},
+						success: function(response) {
+							if (response.redirectUrl != undefined && response.redirectUrl != "") {
+								window.location.href = response.redirectUrl;
+							} else {
+								swal({
+									title: response.result,
+									text: "You are not authorized to delete this content.",
+									icon: "warning",
+									button: "OK",
+								})
+							}
+						},
+						error: function(jqXHR) {
+							console.log(jqXHR);  //응답 메시지
+						},
+						complete: function() {
+							button.prop('disabled', false);
+						}
+					});
+				} else {
+
+				}
+			});
+
+	});
+
 
 }); 

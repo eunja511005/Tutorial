@@ -16,6 +16,7 @@ import com.eun.tutorial.dto.project.ProjectDTO;
 import com.eun.tutorial.dto.project.ProjectListRequest;
 import com.eun.tutorial.dto.project.ProjectListResponse;
 import com.eun.tutorial.mapper.project.ProjectMapper;
+import com.eun.tutorial.service.user.UserDetailsImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,6 +84,35 @@ public class ProjectServiceImpl implements ProjectService {
         project.setParticipants(participants);
 		
 		return project;
+	}
+
+	@Override
+	public Map<String, Object> delete(String id, UserDetailsImpl userDetailsImpl) {
+    	Map<String, Object> res = new HashMap<>();
+    	
+	    Collection<? extends GrantedAuthority> authorities = userDetailsImpl.getAuthorities();
+	    boolean isAdmin = authorities.stream()
+	            .anyMatch(auth -> auth.getAuthority().equals("ROLE_SYS"));
+	    
+	    ProjectDTO project = projectMapper.selectProjectById(id);
+	    
+	    // 프로젝트 메니져이거나 Admin만 삭제 가능
+		if(userDetailsImpl.getUsername().equals(project.getManager()) || isAdmin) {
+			// 프로젝트 참여자 삭제
+		    projectMapper.deleteProjectParticipantsByProjectId(id);
+		    
+			// 프로젝트 삭제 마크
+			projectMapper.delete(id);
+		    
+			res.put("result", "delete success");
+			res.put("redirectUrl", "/project/listForm");
+			return res;
+		}
+    	
+    	res.put("result", "No Authorization");
+    	res.put("redirectUrl", null);
+        
+		return res;
 	}
 
 }

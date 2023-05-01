@@ -17,5 +17,6 @@ public interface ProjectMapper {
 	List<String> selectParticipantsByProjectId(String id);
 	ProjectDTO selectProjectById(String id);
 	int deleteProjectParticipantsByProjectId(String id);
+	int delete(String id);
 }
 

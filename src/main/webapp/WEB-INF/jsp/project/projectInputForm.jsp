@@ -123,10 +123,16 @@
 									</div>
 									<div class="text-center">
 										<button id="submitButton" type="submit"
-											class="btn btn-primary btn-lg">
+											class="btn btn-primary btn-sm">
 											<c:if test="${empty project.id}">등록</c:if>
 											<c:if test="${not empty project.id}">수정</c:if>
 										</button>
+										
+										<c:if test="${not empty project}">
+										  <button class="btn btn-danger btn-sm delete-button" data-id="${project.id}">삭제</button>
+										</c:if>
+										
+										
 									</div>
 								</form>
 							</div>

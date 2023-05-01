@@ -9,6 +9,7 @@
 		resultType="com.eun.tutorial.dto.project.ProjectDTO">
 		SELECT id, name, description, start_date, end_date, status, manager
 		FROM zthh_project
+		WHERE del_yn=0
 		ORDER BY CREATED_AT DESC
 		OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
 	</select>
@@ -24,12 +25,14 @@
 	<select id="selectTotalProjects" resultType="java.lang.Long">
 		SELECT COUNT(*) FROM
 		zthh_project
+		WHERE del_yn=0
 	</select>
 	
 	<select id="selectProjectById" resultType="com.eun.tutorial.dto.project.ProjectDTO">
 		SELECT id, name, description, start_date, end_date, status, manager
 		FROM zthh_project
 		WHERE id = #{id} 
+		AND del_yn=0
 	</select>
 
 	<insert id="insertProject" parameterType="com.eun.tutorial.dto.project.ProjectDTO">
@@ -67,9 +70,14 @@
 			)
 		</foreach>
 	</insert>
+
+	<delete id="deleteProjectParticipantsByProjectId" parameterType="java.lang.String">
+		delete from zthh_project_participant 
+		WHERE project_id = #{project_id, jdbcType=VARCHAR, javaType=string}
+	</delete>  	
 	
-	  <delete id="deleteProjectParticipantsByProjectId" parameterType="java.lang.String"> 
-	  		delete from zthh_project_participant WHERE project_id = #{project_id, jdbcType=VARCHAR, javaType=string}
-	  </delete>  	
+  <delete id="delete" parameterType="com.eun.tutorial.dto.ZthhBoardDTO"> 
+  		UPDATE zthh_project SET del_yn=1 WHERE id = #{id, jdbcType=VARCHAR, javaType=string}
+  </delete>  	
 
 </mapper>
