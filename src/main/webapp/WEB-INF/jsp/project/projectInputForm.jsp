@@ -59,6 +59,10 @@
 							</div>
 							<div class="card-body">
 								<form id="projectForm">
+									<c:if test="${!empty project}">
+										<input type="hidden" id="id" name="id" value="${project.id}" />
+									</c:if>
+
 									<div class="form-group mb-3">
 										<label for="name">프로젝트명</label> <input type="text"
 											class="form-control" id="name" name="name"

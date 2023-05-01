@@ -7,6 +7,7 @@ $(document).ready(function() {
 		
 		event.preventDefault(); // 이벤트 중지
 
+		var id = $('#id').val();
 		var name = $('#name').val();
 		var description = $('#description').val();
 		var startDate = $('#startDate').val();
@@ -16,6 +17,7 @@ $(document).ready(function() {
 		var participants = $('#participants').val();
 
 		var data = {
+			"id": id,
 			"name": name,
 			"description": description,
 			"startDate": startDate,
