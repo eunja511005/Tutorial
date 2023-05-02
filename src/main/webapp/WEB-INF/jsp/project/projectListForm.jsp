@@ -13,7 +13,6 @@
 	<!-- Navigation-->
 	<jsp:include page="/WEB-INF/jsp/common/nav.jsp" />
 
-	<!-- Contact Section-->
 	<section class="page-section" id="contact">
 		<div class="container my-5">
 

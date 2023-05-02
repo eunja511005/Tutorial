@@ -8,37 +8,57 @@
     <title>Signin</title>
   </head>
   
-<body>
-<div class="container-fluid">
-	<h2 style="margin: 10px;">Code Lists</h2>
-</div>
-<hr>
+<body id="page-top">
+	<!-- Navigation-->
+	<jsp:include page="/WEB-INF/jsp/common/nav.jsp" />
 
-<div class="container-fluid">
-    <table id="codeMappingTable" class="display" style="width:100%">
-        <thead>
-		    <tr>
-		        <th colspan="9">
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCodeMappingModal">New</button>
-		        </th>
-		    </tr>       
-	        <tr>
-	            <th>CodeMappingName</th>
-	            <th>CodeMappingDescription</th>
-	            <th>FromCodeId</th>
-	            <th>ToCodeId</th>
-	            <th>Enable</th>
-	            <th>User</th>
-	            <th>Time</th>
-	            <th>View</th>
-	            <th>Delete</th>
-	        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
 
+	<section class="page-section" id="contact">
+		<div class="container my-5">
+
+			<!-- 페이지 제목 -->
+			<h2
+				class="page-section-heading text-center text-uppercase
+				text-secondarymb-0">
+				Code Mapping</h2>
+
+			<!-- 페이지 제목 아래 구분선 -->
+			<div class="divider-custom">
+				<div class="divider-custom-line"></div>
+				<div class="divider-custom-icon">
+					<i class="fas fa-star"></i>
+				</div>
+				<div class="divider-custom-line"></div>
+			</div>
+
+			<!-- 페이지별 본문 -->
+			<div class="container-fluid my-4">
+			    <table id="codeMappingTable" class="display" style="width:100%">
+			        <thead>
+					    <tr>
+					        <th colspan="9">
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCodeMappingModal">New</button>
+					        </th>
+					    </tr>       
+				        <tr>
+				            <th>CodeMappingName</th>
+				            <th>CodeMappingDescription</th>
+				            <th>FromCodeId</th>
+				            <th>ToCodeId</th>
+				            <th>Enable</th>
+				            <th>User</th>
+				            <th>Time</th>
+				            <th>View</th>
+				            <th>Delete</th>
+				        </tr>
+			        </thead>
+			        <tbody>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+	</section>
+	
 <!-- Modal -->
 <div class="modal fade" id="newCodeMappingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

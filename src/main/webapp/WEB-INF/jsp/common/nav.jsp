@@ -2,7 +2,7 @@
 	class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
 	id="mainNav">
 	<div class="container">
-		<a class="navbar-brand" href="#page-top">Do Together</a>
+		<a class="navbar-brand" href="/initInit">Do Together</a>
 		<button
 			class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded"
 			type="button" data-bs-toggle="collapse"
@@ -48,7 +48,7 @@
 				<li class="nav-item mx-0 mx-lg-1"><a
 					class="nav-link py-3 px-0 px-lg-3 rounded"
 					href="javascript:logout()"> <img src=""
-						alt="User Profile Image" class="rounded-circle" width="35"
+						alt="logout" class="rounded-circle" width="35"
 						height="35" id="userProfileImg">
 				</a></li>
 			</ul>
@@ -74,3 +74,13 @@
 				-->
 	</div>
 </nav>
+
+
+<div class="container">
+	<form action="/signout" method="post" name="logoutForm"
+		style="display: none;">
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+		<button type="submit"></button>
+	</form>
+</div>

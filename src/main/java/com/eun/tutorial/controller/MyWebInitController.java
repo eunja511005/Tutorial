@@ -141,7 +141,7 @@ public class MyWebInitController {
 
                     log.info("Uploaded the file successfully: " + multipartFile.getOriginalFilename());
                     log.info("new file name: " + new_file_name);
-                    userInfoDTO.setPicture(new_file_name);
+                    userInfoDTO.setPicture("/"+new_file_name);
                     
                     ZthhFileAttachDTO zthhFileAttachDTO = ZthhFileAttachDTO.builder()
     									                				.attachId(attachId)

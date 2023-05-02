@@ -13,7 +13,6 @@
 	<jsp:include page="/WEB-INF/jsp/common/nav.jsp" />
 
 
-	<!-- Contact Section-->
 	<section class="page-section" id="contact">
 		<div class="container my-5">
 
@@ -112,13 +111,16 @@
 											required>
 									</div>
 									<div class="form-group mb-3">
-										<label for="participants">참여자</label> <select
+										<label for="participants">참여자</label> 
+										<select
 											class="form-control" id="participants" name="participants[]"
 											multiple required>
-											<option value="">Select an option...</option>
-											<option value="user1">User 1</option>
-											<option value="user2">User 2</option>
-											<option value="user3">User 3</option>
+											<option value="user1">ywbest</option>
+											<option value="user2">jkkay</option>
+											<option value="user3">hans</option>
+											<option value="user1">insang</option>
+											<option value="user2">sunghun</option>
+											<option value="user3">sangtae</option>											
 										</select>
 									</div>
 									<div class="text-center">

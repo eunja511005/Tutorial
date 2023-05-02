@@ -189,4 +189,28 @@ COMMENT ON COLUMN zthm_common_code_mapping.create_id IS '생성자';
 COMMENT ON COLUMN zthm_common_code_mapping.create_time IS '생성시간';
 COMMENT ON COLUMN zthm_common_code_mapping.update_id IS '수정자';
 COMMENT ON COLUMN zthm_common_code_mapping.update_time IS '수정시간';
+
+drop table zthh_project;
+CREATE TABLE zthh_project (
+    id VARCHAR2(200) PRIMARY KEY,
+    name VARCHAR2(255) NOT NULL,
+    description VARCHAR2(1000) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+	status VARCHAR2(50),
+	manager VARCHAR2(100),
+	participants VARCHAR2(1000),
+	del_yn  CHAR(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+drop table zthh_project_participant;
+CREATE TABLE zthh_project_participant (
+  project_id VARCHAR2(200) NOT NULL,
+  participant VARCHAR2(100) NOT NULL,
+  CONSTRAINT pk_project_participant PRIMARY KEY (project_id, participant),
+  CONSTRAINT fk_project_participant_project FOREIGN KEY (project_id) REFERENCES zthh_project(id)
+);
+
 */

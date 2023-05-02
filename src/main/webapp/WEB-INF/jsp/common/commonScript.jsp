@@ -12,14 +12,9 @@
 				<!-- Footer Social Icons-->
 				<div class="col-lg-4 mb-5 mb-lg-0">
 					<h4 class="text-uppercase mb-4">Around the Web</h4>
-					<a class="btn btn-outline-light btn-social mx-1" href="#!"><i
-						class="fab fa-fw fa-facebook-f"></i></a> <a
-						class="btn btn-outline-light btn-social mx-1" href="#!"><i
-						class="fab fa-fw fa-twitter"></i></a> <a
-						class="btn btn-outline-light btn-social mx-1" href="#!"><i
-						class="fab fa-fw fa-linkedin-in"></i></a> <a
-						class="btn btn-outline-light btn-social mx-1" href="#!"><i
-						class="fab fa-fw fa-dribbble"></i></a>
+					<p class="lead mb-0">
+						2215 John Daniel Drive <br /> Clark, MO 65243
+					</p>
 				</div>
 				<!-- Footer About Text-->
 				<div class="col-lg-4">
@@ -38,9 +33,6 @@
 			<small>Copyright &copy; Your Website 2023</small>
 		</div>
 	</div>
-
-<!-- mode 선택 -->
-<script src="/js/color-modes.js"></script>
     	 
 <!-- Jquery -->
 <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -58,3 +50,6 @@
 
 <!-- DataTable -->
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<!-- nav's javascript -->
+<script type="text/javascript" src="/js/init/nav.js"></script>
